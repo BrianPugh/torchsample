@@ -1,4 +1,4 @@
-""" Sanity integration tests between various components.
+"""Sanity integration tests between various components.
 """
 
 import pytest
@@ -33,12 +33,11 @@ def test_full_sample2d_pos(single_batch):
     encoder = ts.encoding.Identity()
 
     coords = ts.coord.full_like(single_batch, align_corners=align_corners)
-    sampled = ts.sample2d(coords, single_batch, align_corners=align_corners, encoder=encoder)
+    sampled = ts.sample2d(
+        coords, single_batch, align_corners=align_corners, encoder=encoder
+    )
 
     assert sampled.shape == (1, 3, 15, 10 + 2)
 
     assert torch.allclose(expected, sampled[..., :10], atol=1e-6)
-    assert torch.allclose(coords,
-                          sampled[..., 10:],
-                          atol=1e-6
-                          )
+    assert torch.allclose(coords, sampled[..., 10:], atol=1e-6)

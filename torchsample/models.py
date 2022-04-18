@@ -4,12 +4,14 @@ from torch import nn
 
 
 class MLP(nn.Module):
-    """ Multi Layer Perceptron.
+    """Multi Layer Perceptron.
 
     Applies the MLP to the final dimension of input tensor.
     """
+
     def __init__(self, *layers, activation=F.relu):
-        """
+        """Construct an ``MLP`` with specified nodes-per-layer.
+
         Parameters
         ----------
         layers : tuple
@@ -29,7 +31,8 @@ class MLP(nn.Module):
         self.layers = nn.Sequential(*layers)
 
     def forward(self, x):
-        """
+        """Forward pass through linear and activation layers.
+
         Parameters
         ----------
         x : torch.Tensor
@@ -39,7 +42,7 @@ class MLP(nn.Module):
         -------
         torch.Tensor
             (..., feat_out) shaped tensor.
-		"""
+        """
         shape = x.shape[:-1]
         x = self.layers(x.view(-1, x.shape[-1]))
         return x.view(*shape, -1)

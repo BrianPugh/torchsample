@@ -3,7 +3,7 @@ import torch.nn.functional as F
 
 
 def rand(batch, sample, dims=2, dtype=None, device=None):
-    """ Generates random coordinates in range ``[-1, 1]``.
+    """Generate random coordinates in range ``[-1, 1]``.
 
     Parameters
     ----------
@@ -25,7 +25,7 @@ def rand(batch, sample, dims=2, dtype=None, device=None):
 
 
 def full(size, dtype=None, device=None, align_corners=True):
-    """ Generates 2D or 3D coordinates to fully sample an image.
+    """Generate 2D or 3D coordinates to fully sample an image.
 
     Parameters
     ----------
@@ -36,15 +36,11 @@ def full(size, dtype=None, device=None, align_corners=True):
 
     Returns
     -------
-    index_coords : torch.Tensor
-        Index coordinates for assigning results to an output canvas.
-    norm_coords : torch.Tensor
-        Normalized coordinates for sampling functions.
+    coords : torch.Tensor
+        ``(n, h, w, 2)`` Normalized coordinates for sampling functions.
     """
     batch = size[0]
-    n_dim = len(size) - 2
-    theta = torch.tensor([[[1., 0., 0.], [0., 1., 0.]]],
-                         device=device)
+    theta = torch.tensor([[[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]]], device=device)
     theta = theta.repeat(batch, 1, 1)
     norm_coords = F.affine_grid(theta, size, align_corners=align_corners).to(device)
 

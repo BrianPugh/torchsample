@@ -2,14 +2,15 @@ import torch
 import torch.nn.functional as F
 
 
-def sample2d(coords,
-             featmap,
-             mode="bilinear",
-             padding_mode='border',
-             align_corners=True,
-             encoder=None,
-             ):
-    """Samples a featmap at normalized coords.
+def sample2d(
+    coords,
+    featmap,
+    mode="bilinear",
+    padding_mode="border",
+    align_corners=True,
+    encoder=None,
+):
+    """Sample a featmap at specified normalized coords.
 
     Parameters
     ----------
@@ -42,11 +43,13 @@ def sample2d(coords,
     else:
         raise ValueError(f"Unknown coords shape {coords.shape=}.")
 
-    output = F.grid_sample(featmap, coords,
-                           padding_mode=padding_mode,
-                           mode=mode,
-                           align_corners=align_corners
-                           )
+    output = F.grid_sample(
+        featmap,
+        coords,
+        padding_mode=padding_mode,
+        mode=mode,
+        align_corners=align_corners,
+    )
 
     if encoder is not None:
         encoded = encoder(coords.permute(0, 3, 1, 2))
@@ -58,4 +61,3 @@ def sample2d(coords,
         output = output[:, :, 0]
 
     return output
-

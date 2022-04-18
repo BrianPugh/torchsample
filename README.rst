@@ -1,4 +1,4 @@
-Lightweight 
+Lightweight
 
 Introduction
 ------------
@@ -18,12 +18,17 @@ focus on other parts of the model.
 Design Decisions
 ----------------
 
-* `align_corners=True` by default. Makes more sense for a lot of sampling.
+* ``align_corners=True`` by default. Makes more sense for a lot of sampling.
 * Everything is in normalized coordinates ``[-1, 1]`` by default.
 * Simple wrapper functions are provided (like ``ts.coord.rand``) are
   provided to make the intentions of calling code more clear.
 * Try and mimic native ``pytorch`` and ``torchvision`` interfaces as
   much as possible.
+
+TODO
+----
+* Most functionality was created with 2D use-cases in mind. Need to update
+  APIs to take into account 3D use-cases.
 
 Usage
 -----
@@ -85,5 +90,6 @@ Models
 
 .. code-block:: python
   import torchsample as ts
+
   # Properly handles (..., feat) tensors.
   model = torch.models.MLP(256, 256, 512, 512, 1024, 1024, 1)

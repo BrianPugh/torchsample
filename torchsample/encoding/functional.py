@@ -2,13 +2,12 @@ import torch
 
 
 def identity(coords):
-    """ Returns ``coords`` as-is.
-    """
+    """Return ``coords`` unmodified."""
     return coords
 
 
 def gamma(coords, order=10, cat=True):
-    """ Positional encoding via sin and cos.
+    """Positional encoding via sin and cos.
 
     From:
         NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis
@@ -16,12 +15,12 @@ def gamma(coords, order=10, cat=True):
     Parameters
     ----------
     coords : torch.Tensor
-        (b, samples, dim) Coordinates to convert to positional encoding.
+        ``(..., dim)`` Coordinates to convert to positional encoding.
         In range ``[-1, 1]``.
     order : int
         Number
     cat : bool
-        If ``true``, return a single torch.Tensor.
+        If ``True``, return a single torch.Tensor.
         Otherwise, returns a list of tensors.
         Saves a tiny bit of memory if you are going to concatenate with
         other features anyways.
@@ -29,7 +28,7 @@ def gamma(coords, order=10, cat=True):
     Returns
     -------
     torch.Tensor
-        (b, samples, 2*dim*order)
+        ``(..., 2*dim*order)``
     """
     output = []
     for o in range(order):
@@ -42,9 +41,16 @@ def gamma(coords, order=10, cat=True):
         output = torch.cat(output, dim=-1)
     return output
 
+
 def nearest_pixel(coords):
-    """Returns offset to nearest pixel.
+    """Encode normalized coords and relative offset to nearest neighbor.
 
     From:
         Learning Continuous Image Representation with Local Implicit Image Function
+
+    Returns
+    -------
+    torch.Tensor
+        ``(..., 4*dim)``
     """
+    raise NotImplementedError

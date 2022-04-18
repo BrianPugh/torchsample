@@ -18,13 +18,13 @@ def test_full_single_batch_2d():
     assert coords.shape == (1, h, w, 2)
 
     # Verify coords are in correct order (xy).
-    assert (coords[0, 0, 0] == torch.Tensor([-1., -1.])).all()
+    assert (coords[0, 0, 0] == torch.Tensor([-1.0, -1.0])).all()
 
     # Moving down an image should increase y
-    assert (coords[0, 1, 0] == torch.Tensor([-1., 1.])).all()
+    assert (coords[0, 1, 0] == torch.Tensor([-1.0, 1.0])).all()
 
     # Moving ot the right should increase x
-    assert (coords[0, 0, 1] == torch.Tensor([0, -1.])).all()
+    assert (coords[0, 0, 1] == torch.Tensor([0, -1.0])).all()
 
 
 def test_full_like_match_full():
