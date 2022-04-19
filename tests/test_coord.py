@@ -26,6 +26,9 @@ def test_full_single_batch_2d():
     # Moving ot the right should increase x
     assert (coords[0, 0, 1] == torch.Tensor([0, -1.0])).all()
 
+    # Assert the final coord is [1., 1.]
+    assert (coords[0, -1, -1] == torch.Tensor([1.0, 1.0])).all()
+
 
 def test_full_like_match_full():
     tensor = torch.rand(3, 4, 5, 6)
