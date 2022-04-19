@@ -1,13 +1,15 @@
 import torch
 import torch.nn.functional as F
 
+from torchsample import default
+
 
 def sample2d(
     coords,
     featmap,
     mode="bilinear",
     padding_mode="border",
-    align_corners=True,
+    align_corners=default.align_corners,
     encoder=None,
 ):
     """Sample a featmap at specified normalized coords.
@@ -58,6 +60,6 @@ def sample2d(
     output = output.permute(0, 2, 3, 1)
 
     if remove_singleton:
-        output = output[:, :, 0]
+        output = output[:, 0]
 
     return output

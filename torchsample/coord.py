@@ -1,6 +1,42 @@
 import torch
 import torch.nn.functional as F
 
+from torchsample import default
+
+
+def unnormalize(coord, size, align_corners, clip=True):
+    """Unnormalize normalized coordinates.
+
+    Modified from PyTorch C source:
+        https://github.com/pytorch/pytorch/blob/c52290bad18d23d7decd37b581307f8241c0e8c5/aten/src/ATen/native/GridSampler.h#L26
+
+    Parameters
+    ----------
+    coord : torch.Tensor
+        Values in range ``[-1. 1]`` to unnormalize.
+    size : int
+        Unnormalized side length in pixels.
+    align_corners : bool
+    clip : bool
+        If ``True``, output will be clipped to range ``[0, size-1]``
+
+    Returns
+    -------
+    torch.Tensor
+        Unnormalized coordinates.
+    """
+    if align_corners:
+        # unnormalize coord from [-1, 1] to [0, size - 1]
+        unnorm = ((coord + 1) / 2) * (size - 1)
+    else:
+        # unnormalize coord from [-1, 1] to [-0.5, size - 0.5]
+        unnorm = ((coord + 1) * size - 1) / 2
+
+    if clip:
+        unnorm = torch.clip(unnorm, 0, size - 1)
+
+    return unnorm
+
 
 def rand(batch, sample, dims=2, dtype=None, device=None):
     """Generate random coordinates in range ``[-1, 1]``.
@@ -24,7 +60,7 @@ def rand(batch, sample, dims=2, dtype=None, device=None):
     return 2 * torch.rand(batch, sample, dims, dtype=dtype, device=device) - 1
 
 
-def full(size, dtype=None, device=None, align_corners=True):
+def full(size, dtype=None, device=None, align_corners=default.align_corners):
     """Generate 2D or 3D coordinates to fully sample an image.
 
     Parameters

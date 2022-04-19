@@ -13,12 +13,10 @@ def single_batch():
 
 
 def test_full_sample2d(single_batch):
-    align_corners = True
-
     expected = single_batch.permute(0, 2, 3, 1)
 
-    coords = ts.coord.full_like(single_batch, align_corners=align_corners)
-    sampled = ts.sample2d(coords, single_batch, align_corners=align_corners)
+    coords = ts.coord.full_like(single_batch)
+    sampled = ts.sample2d(coords, single_batch)
 
     assert sampled.shape == (1, 3, 15, 10)
 
@@ -26,16 +24,12 @@ def test_full_sample2d(single_batch):
 
 
 def test_full_sample2d_pos(single_batch):
-    align_corners = True
-
     expected = single_batch.permute(0, 2, 3, 1)
     # Identity encoder just tacks on the normalized coord.
     encoder = ts.encoding.Identity()
 
-    coords = ts.coord.full_like(single_batch, align_corners=align_corners)
-    sampled = ts.sample2d(
-        coords, single_batch, align_corners=align_corners, encoder=encoder
-    )
+    coords = ts.coord.full_like(single_batch)
+    sampled = ts.sample2d(coords, single_batch, encoder=encoder)
 
     assert sampled.shape == (1, 3, 15, 10 + 2)
 

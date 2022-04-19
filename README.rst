@@ -1,4 +1,6 @@
-Lightweight
+Lightweight pytorch helpers for neural network sampling.
+
+**WARNING: API is not yet stable. Use at your own risk!**
 
 Introduction
 ------------
@@ -18,7 +20,7 @@ focus on other parts of the model.
 Design Decisions
 ----------------
 
-* ``align_corners=True`` by default. Makes more sense for a lot of sampling.
+* ``align_corners=True`` by default.
 * Everything is in normalized coordinates ``[-1, 1]`` by default.
 * Simple wrapper functions are provided (like ``ts.coord.rand``) are
   provided to make the intentions of calling code more clear.

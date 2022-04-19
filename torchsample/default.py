@@ -1,0 +1,1 @@
+align_corners = True
