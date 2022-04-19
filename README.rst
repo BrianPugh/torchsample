@@ -1,3 +1,8 @@
+|GHA tests| |Codecov report| |pre-commit| |black|
+
+TorchSample
+===========
+
 Lightweight pytorch helpers for neural network sampling.
 
 **WARNING: API is not yet stable. Use at your own risk!**
@@ -101,3 +106,17 @@ Models
 
   # Properly handles (..., feat) tensors.
   model = torch.models.MLP(256, 256, 512, 512, 1024, 1024, 1)
+
+
+.. |GHA tests| image:: https://github.com/BrianPugh/torchsample/workflows/tests/badge.svg
+   :target: https://github.com/BrianPugh/torchsample/actions?query=workflow%3Atests
+   :alt: GHA Status
+.. |Codecov report| image:: https://codecov.io/github/BrianPugh/torchsample/coverage.svg?branch=main
+   :target: https://codecov.io/github/BrianPugh/torchsample?branch=main
+   :alt: Coverage
+.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+   :target: https://github.com/pre-commit/pre-commit
+   :alt: pre-commit
+.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+   :alt: black
