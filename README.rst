@@ -41,6 +41,7 @@ A common scenario is to randomly sample points from a featmap and
 from the ground truth.
 
 .. code-block:: python
+
   import torchsample as ts
 
   b, c, h, w = batch["image"].shape
@@ -56,6 +57,7 @@ During inference, a comprehensive query of the network to form a complete
 image is common.
 
 .. code-block:: python
+
   import torch
   import torchsample as ts
 
@@ -69,7 +71,9 @@ image is common.
 Positional Encoding
 ^^^^^^^^^^^^^^^^^^^
 Common positional encoding schemes are available.
+
 .. code-block:: python
+
   import torchsample as ts
 
   coords = ts.coord.rand(b, 4096, 2)
@@ -80,6 +84,7 @@ sampled values. You can do this by passing a callable into
 ``ts.sample2d``:
 
 .. code-block:: python
+
   import torchsample as ts
 
   encoder = ts.encoding.Gamma()
@@ -91,6 +96,7 @@ Models
 ``torchsample`` has some common builtin models:
 
 .. code-block:: python
+
   import torchsample as ts
 
   # Properly handles (..., feat) tensors.
