@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 
-from torchsample import default
+from . import default
 
 
 def sample2d(

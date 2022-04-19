@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 
-from torchsample import default
+from . import default
 
 
 def unnormalize(coord, size, align_corners, clip=True):
