@@ -49,7 +49,19 @@ def nearest_pixel(coords, size, align_corners=default.align_corners):
     instead of ``[-0.5, 0.5]``
 
     From:
-        Learning Continuous Image Representation with Local Implicit Image Function
+        High Quality Segmentation for Ultra High-resolution Images arXiv:2111.14482v3
+
+    Example
+    -------
+    .. code-block:: python
+
+        import torch
+        import torchsample as ts
+
+        target = torch.rand(1, 3, 480, 640)
+        featmap = torch.rand(1, 256, 15, 20)
+        coords = ts.coord.randint(1, 4096, (640, 480))
+        pos_enc = ts.encoding.nearest_pixel(coords, (20, 15))
 
     Parameters
     ----------
