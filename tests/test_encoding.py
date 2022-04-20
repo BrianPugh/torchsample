@@ -19,7 +19,7 @@ def test_nearest_pixel_pixel_perfect():
             [-1, -1.0 + 2.0 * (1 / (3 - 1))],  # second pixel down
         ]
     )[None]
-    actual = ts.encoding.nearest_pixel(coords, (3, 5))
+    actual = ts.encoding.nearest_pixel(coords, (5, 3))
 
     assert actual.shape == (1, 5, 2 + 2)
 
@@ -49,7 +49,7 @@ def test_nearest_pixel_halfway():
             [-1, -1.0 + 1.0 * (1 / (3 - 1)) + eps],  # halfway to second pixel down
         ]
     )[None]
-    actual = ts.encoding.nearest_pixel(coords, (3, 5))
+    actual = ts.encoding.nearest_pixel(coords, (5, 3))
 
     assert actual.shape == (1, 4, 2 + 2)
 

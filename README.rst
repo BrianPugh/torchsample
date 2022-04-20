@@ -27,10 +27,15 @@ Design Decisions
 
 * ``align_corners=True`` by default.
 * Everything is in normalized coordinates ``[-1, 1]`` by default.
+* Coordinates are always in order ``(x, y, ...)``.
+* Whenever a size is given, it will be in ``(w, h)`` order;
+  i.e. matches coordinate order.
+* When ``coords`` is a function argument, it comes first.
 * Simple wrapper functions are provided (like ``ts.coord.rand``) are
   provided to make the intentions of calling code more clear.
 * Try and mimic native ``pytorch`` and ``torchvision`` interfaces as
   much as possible.
+* Try and make the common-usecase as simple and intuitive as possible.
 
 TODO
 ----

@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from . import default
 
 
-def unnormalize(coord, size, align_corners, clip=True):
+def unnormalize(coord, size, align_corners, clip=False):
     """Unnormalize normalized coordinates.
 
     Modified from PyTorch C source:
@@ -42,6 +42,10 @@ def unnormalize(coord, size, align_corners, clip=True):
 
 def normalize(coord, size, align_corners):
     """Normalize unnormalized coordinates.
+
+    Related
+    -------
+    unnormalize
 
     Parameters
     ----------
@@ -97,12 +101,15 @@ def randint(
     Unlike ``rand``, the resulting coordinates will land exactly on pixels.
     Intended for sampling high resolution GT data during data loading.
 
+    Due to numerical precision, it is suggested to use ``mode="nearest"``
+    when sampling featuremaps of resolution ``size`` using these coordinates.
+
     Parameters
     ----------
     batch : int
     sample : int
     size : tuple
-        ``(h, w)`` of image to generate pixel coordinates for.
+        ``(x, y)`` of image to generate pixel coordinates for.
     dtype : torch.dtype
         The desired data type of returned tensor.
     device : torch.device

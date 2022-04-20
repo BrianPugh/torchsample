@@ -57,14 +57,14 @@ def nearest_pixel(coords, size, align_corners=default.align_corners):
         ``(b, h, w, 2)`` Coordinates to convert to positional encoding.
         In range ``[-1, 1]``.
     size : torch.Tensor
-        ``(h, w)`` size of the featuremap to be sampled.
+        ``(w, h)`` size of the featuremap to be sampled.
 
     Returns
     -------
     torch.Tensor
         ``(..., 4*dim)``
     """
-    h, w = size
+    w, h = size
     unnorm_coords = coords.new_empty(coords.shape)
     unnorm_coords[..., 0] = unnormalize(coords[..., 0], w, align_corners)
     unnorm_coords[..., 1] = unnormalize(coords[..., 1], h, align_corners)

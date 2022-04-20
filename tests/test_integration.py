@@ -35,3 +35,25 @@ def test_full_sample2d_pos(single_batch):
 
     assert torch.allclose(expected, sampled[..., :10], atol=1e-6)
     assert torch.allclose(coords, sampled[..., 10:], atol=1e-6)
+
+
+def test_randint_align_corners_true():
+    align_corners = True
+    batch = torch.rand(2, 3, 480, 640)
+    coords = ts.coord.randint(2, 4096, (640, 480), align_corners=align_corners)
+    sampled = ts.sample2d(coords, batch, mode="nearest", align_corners=align_corners)
+
+    sampled_flat = sampled.reshape(-1, 3)
+    batch_flat = batch.permute(0, 2, 3, 1).reshape(-1, 3)
+    assert all([x in batch_flat for x in sampled_flat])
+
+
+def test_randint_align_corners_false():
+    align_corners = False
+    batch = torch.rand(2, 3, 480, 640)
+    coords = ts.coord.randint(2, 4096, (640, 480), align_corners=align_corners)
+    sampled = ts.sample2d(coords, batch, mode="nearest", align_corners=align_corners)
+
+    sampled_flat = sampled.reshape(-1, 3)
+    batch_flat = batch.permute(0, 2, 3, 1).reshape(-1, 3)
+    assert all([x in batch_flat for x in sampled_flat])
