@@ -66,7 +66,7 @@ def nearest_pixel(coords, size, align_corners=default.align_corners):
     Parameters
     ----------
     coords : torch.Tensor
-        ``(b, h, w, 2)`` Coordinates to convert to positional encoding.
+        ``(..., dim)`` Coordinates to convert to positional encoding.
         In range ``[-1, 1]``.
     size : tuple
         Size of field to generate pixel-center offsets for. i.e. ``(x, y, ...)``.
