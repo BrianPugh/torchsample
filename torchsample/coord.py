@@ -100,9 +100,7 @@ def rand(batch, sample, dims=2, dtype=None, device=None):
     return 2 * torch.rand(batch, sample, dims, dtype=dtype, device=device) - 1
 
 
-def randint(
-    batch, sample, size, dtype=None, device=None, align_corners=default.align_corners
-):
+def randint(batch, sample, size, device=None, align_corners=default.align_corners):
     """Generate random pixel coordinates in range ``[-1, 1]``.
 
     Unlike ``rand``, the resulting coordinates will land exactly on pixels.
@@ -116,9 +114,7 @@ def randint(
     batch : int
     sample : int
     size : tuple
-        ``(x, y)`` of image to generate pixel coordinates for.
-    dtype : torch.dtype
-        The desired data type of returned tensor.
+        Size of field to generate pixel coordinates for. i.e. ``(x, y, ...)``.
     device : torch.device
         The desired device of returned tensor
     align_corners : bool
@@ -131,14 +127,14 @@ def randint(
     """
     coords = []
     for s in size:
-        unnorm = torch.randint(s, size=(batch, sample), dtype=torch.get_default_dtype())
+        unnorm = torch.randint(s, size=(batch, sample), device=device)
         norm = normalize(unnorm, s, align_corners)
         coords.append(norm)
     coords = torch.stack(coords, dim=-1)
     return coords
 
 
-def full(size, dtype=None, device=None, align_corners=default.align_corners):
+def full(size, device=None, align_corners=default.align_corners):
     """Generate 2D or 3D coordinates to fully sample an image.
 
     Parameters
@@ -147,8 +143,6 @@ def full(size, dtype=None, device=None, align_corners=default.align_corners):
         Tuple of length 4 (2D) ``(n, c, h, w)`` or 5 (3D) ``(n, c, d, h, w)``.
         In either case, ``c`` doesn't matter and is just there so we can
         conveniently use ``output.shape``.
-    dtype : torch.dtype
-        The desired data type of returned tensor.
     device : torch.device
         The desired device of returned tensor
     align_corners : bool

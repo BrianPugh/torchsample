@@ -56,19 +56,16 @@ def nearest_pixel(coords, size, align_corners=default.align_corners):
     coords : torch.Tensor
         ``(b, h, w, 2)`` Coordinates to convert to positional encoding.
         In range ``[-1, 1]``.
-    size : torch.Tensor
-        ``(w, h)`` size of the featuremap to be sampled.
+    size : tuple
+        Size of field to generate pixel-center offsets for. i.e. ``(x, y, ...)``.
 
     Returns
     -------
     torch.Tensor
         ``(..., 4*dim)``
     """
-    w, h = size
-    unnorm_coords = coords.new_empty(coords.shape)
-    unnorm_coords[..., 0] = unnormalize(coords[..., 0], w, align_corners)
-    unnorm_coords[..., 1] = unnormalize(coords[..., 1], h, align_corners)
-    # should be in range [-1, 1]
+    unnorm_coords = unnormalize(coords, size, align_corners)
+    # 2x to scale the range from [-0.5, 0.5] to [-1, 1]
     # Note: torch rounds 0.5 DOWN
     unnorm_offset = 2 * (torch.round(unnorm_coords) - unnorm_coords)
     output = torch.cat((coords, unnorm_offset), dim=-1)
