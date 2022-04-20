@@ -1,4 +1,5 @@
 import torch
+from torch.testing import assert_close
 
 import torchsample as ts
 
@@ -47,3 +48,12 @@ def test_sample2d_coords_shape3():
 
     # Trying out small interpolations.
     assert torch.allclose(actual[0, 6], torch.tensor(0.95 * 10 + 0.05 * 20))
+
+
+def test_sample_unified_2d():
+    featmap = torch.rand(10, 3, 192, 256)
+    coords = ts.coord.rand(10, 4096)
+
+    sample_out = ts.sample(coords, featmap)
+    sample2d_out = ts.sample2d(coords, featmap)
+    assert_close(sample_out, sample2d_out)

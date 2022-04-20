@@ -59,8 +59,8 @@ from the ground truth.
   coords = ts.coord.rand(b, 4096, 2)  # (b, 4096, 2) where the last dim is (x, y)
 
   feat_map = encoder(batch["image"])  # (b, feat, h, w)
-  sampled = ts.sample2d(coords, feat_map)  # (b, 4096, feat)
-  gt_sample = ts.sample2d(coords, batch["gt"])
+  sampled = ts.sample(coords, feat_map)  # (b, 4096, feat)
+  gt_sample = ts.sample(coords, batch["gt"])
 
 Inference
 ^^^^^^^^^
@@ -92,14 +92,14 @@ Common positional encoding schemes are available.
 
 A common task it concatenating the positional encoding to
 sampled values. You can do this by passing a callable into
-``ts.sample2d``:
+``ts.sample``:
 
 .. code-block:: python
 
   import torchsample as ts
 
   encoder = ts.encoding.Gamma()
-  sampled = ts.sample2d(coords, feat_map, encoder=encoder)
+  sampled = ts.sample(coords, feat_map, encoder=encoder)
 
 
 Models
