@@ -4,12 +4,37 @@ import torch
 import torchsample as ts
 
 
+def test_normalize():
+    # TODO
+    pass
+
+
+def test_unnormalize():
+    # TODO
+    pass
+
+
+def test_normalize_unnormalize_auto():
+    # TODO
+    pass
+
+
 def test_rand():
     actual = ts.coord.rand(5, 4096)
     assert isinstance(actual, torch.Tensor)
     assert actual.shape == (5, 4096, 2)
     assert 0.99 < actual.max() <= 1.0
     assert -0.99 > actual.min() >= -1.0
+
+
+def test_randint_align():
+    # TODO
+    pass
+
+
+def test_randint_no_align():
+    # TODO
+    pass
 
 
 def test_full_single_batch_2d():
