@@ -13,13 +13,70 @@ def test_normalize():
     assert_close(actual, torch.tensor([-0.99792, 0.99792]))
 
 
+def test_normalize_tuple():
+    unnorm = torch.tensor(
+        [
+            [0, 0],
+            [640 - 1, 480 - 1],
+        ]
+    )
+    actual = ts.coord.normalize(unnorm, (640, 480), align_corners=True)
+    assert_close(
+        actual,
+        torch.tensor(
+            [
+                [-1.0, -1.0],
+                [1.0, 1.0],
+            ]
+        ),
+    )
+    actual = ts.coord.normalize(unnorm, (640, 480), align_corners=False)
+    assert_close(
+        actual,
+        torch.tensor(
+            [
+                [-0.99844, -0.99792],
+                [0.99844, 0.99792],
+            ]
+        ),
+    )
+
+
 def test_unnormalize():
-    # TODO
     norm_x = torch.tensor([-1, 1])
     actual = ts.coord.unnormalize(norm_x, 480, align_corners=True)
     assert_close(actual, torch.tensor([0.0, 480 - 1]))
     actual = ts.coord.unnormalize(norm_x, 480, align_corners=False)
     assert_close(actual, torch.tensor([-0.5, 480 - 0.5]))
+
+
+def test_unnormalize_tuple():
+    norm = torch.tensor(
+        [
+            [-1, -1],
+            [1, 1],
+        ]
+    )
+    actual = ts.coord.unnormalize(norm, (640, 480), align_corners=True)
+    assert_close(
+        actual,
+        torch.tensor(
+            [
+                [0.0, 0.0],
+                [640 - 1, 480 - 1],
+            ]
+        ),
+    )
+    actual = ts.coord.unnormalize(norm, (640, 480), align_corners=False)
+    assert_close(
+        actual,
+        torch.tensor(
+            [
+                [-0.5, -0.5],
+                [640 - 0.5, 480 - 0.5],
+            ]
+        ),
+    )
 
 
 def test_normalize_unnormalize_auto_align_corners_true():

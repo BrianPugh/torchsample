@@ -29,7 +29,8 @@ Design Decisions
 * Everything is in normalized coordinates ``[-1, 1]`` by default.
 * Coordinates are always in order ``(x, y, ...)``.
 * Whenever a size is given, it will be in ``(w, h)`` order;
-  i.e. matches coordinate order.
+  i.e. matches coordinate order. It makes implementation simpler
+  and a consistent rule helps prevent bugs.
 * When ``coords`` is a function argument, it comes first.
 * Simple wrapper functions are provided (like ``ts.coord.rand``) are
   provided to make the intentions of calling code more clear.

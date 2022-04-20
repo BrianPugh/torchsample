@@ -14,8 +14,9 @@ def unnormalize(coord, size, align_corners, clip=False):
     ----------
     coord : torch.Tensor
         Values in range ``[-1, 1]`` to unnormalize.
-    size : int
+    size : int or tuple
         Unnormalized side length in pixels.
+        If tuple, order is ``(x, y, ...)`` to match ``coord``.
     align_corners : bool
         if ``True``, the corner pixels of the input and output tensors are
         aligned, and thus preserving the values at those pixels.
@@ -27,6 +28,8 @@ def unnormalize(coord, size, align_corners, clip=False):
     torch.Tensor
         Unnormalized coordinates.
     """
+    size = coord.new_tensor(size)
+    size = size[(None,) * (coord.ndim - 1)]
     if align_corners:
         # unnormalize coord from [-1, 1] to [0, size - 1]
         unnorm = ((coord + 1) / 2) * (size - 1)
@@ -51,8 +54,9 @@ def normalize(coord, size, align_corners):
     ----------
     coord : torch.Tensor
         Values in range ``[0, size-1]`` to normalize.
-    size : int
+    size : int or tuple
         Unnormalized side length in pixels.
+        If tuple, order is ``(x, y, ...)`` to match ``coord``.
     align_corners : bool
         if ``True``, the corner pixels of the input and output tensors are
         aligned, and thus preserving the values at those pixels.
@@ -62,6 +66,9 @@ def normalize(coord, size, align_corners):
     torch.Tensor
         Normalized coordinates.
     """
+    size = coord.new_tensor(size)
+    size = size[(None,) * (coord.ndim - 1)]
+
     if align_corners:
         norm = (coord / (size - 1)) * 2 - 1
     else:
@@ -158,12 +165,6 @@ def full(size, dtype=None, device=None, align_corners=default.align_corners):
     theta = theta.repeat(batch, 1, 1)
     norm_coords = F.affine_grid(theta, size, align_corners=align_corners).to(device)
 
-    # mesh_tensors = [torch.arange(x) for x in size[2:]]
-    # index_coords = torch.stack(torch.meshgrid(*mesh_tensors, indexing="ij"), -1)[None]
-    # Reshape them to be (n, samples, 2 or 3)
-    # index_coords = index_coords.reshape(batch, -1, n_dim)
-    # norm_coords = norm_coords.reshape(batch, -1, n_dim)
-    # return index_coords, norm_coords
     return norm_coords
 
 
