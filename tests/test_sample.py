@@ -57,3 +57,17 @@ def test_sample_unified_2d():
     sample_out = ts.sample(coords, featmap)
     sample2d_out = ts.sample2d(coords, featmap)
     assert_close(sample_out, sample2d_out)
+
+
+def test_sample3d_coords_shape4():
+    # TODO
+    pass
+
+
+def test_sample_unified_3d():
+    featmap = torch.rand(10, 3, 5, 192, 256)
+    coords = ts.coord.rand(10, 4096, 3)
+
+    sample_out = ts.sample(coords, featmap)
+    sample3d_out = ts.sample3d(coords, featmap)
+    assert_close(sample_out, sample3d_out)

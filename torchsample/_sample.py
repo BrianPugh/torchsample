@@ -147,9 +147,9 @@ def sample(
     Parameters
     ----------
     coords : torch.Tensor
-        ``(b, samples, dim)`` or ``(b, h, w, dim)`` coordinates in range
-        ``[-1, 1]`` where the last dimension represents ``(x, y)``
-        or ``(x, y, z)``.
+        ``(b, samples, dim)`` or ``(b, h, w, dim)`` or ``(b, d, h, w, dim)``
+        coordinates in range ``[-1, 1]`` where the last dimension represents
+        ``(x, y)`` or ``(x, y, z)``.
     featmap : torch.Tensor
         ``(b, c, h, w)`` (2D) or ``(b, c, d, h, w)`` (3D).
     encoder : callable
@@ -169,7 +169,7 @@ def sample(
     """
     if featmap.ndim == 4:
         f = sample2d
-    elif featmap.ndim == 3:
+    elif featmap.ndim == 5:
         f = sample3d
     else:
         raise ValueError(f"Cannot handle featuremap dimensionality {featmap.ndim}.")
