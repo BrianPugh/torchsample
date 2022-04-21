@@ -8,6 +8,7 @@ docs/source/packages
 # Automatically converting README from markdown to rST
 docs/bin
 docs/source/readme.rst
+docs/source/assets
 
 
 ##---------------------------------------------------
