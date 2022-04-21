@@ -26,6 +26,21 @@ focus on other parts of the model.
 Usage
 -----
 
+Installation
+^^^^^^^^^^^^
+Install ``torchsample`` via pip:
+
+.. code-block:: bash
+
+  pip install torchsample
+
+If you want to install the nightly version:
+
+.. code-block:: bash
+
+  pip install git+https://github.com/BrianPugh/torchsample.git@main
+
+
 Training
 ^^^^^^^^
 A common scenario is to randomly sample points from a featmap and
@@ -94,21 +109,8 @@ Models
   import torchsample as ts
 
   # Properly handles (..., feat) tensors.
-  model = torch.models.MLP(256, 256, 512, 512, 1024, 1024, 1)
+  model = ts.models.MLP(256, 256, 512, 512, 1024, 1024, 1)
 
-
-.. |GHA tests| image:: https://github.com/BrianPugh/torchsample/workflows/tests/badge.svg
-   :target: https://github.com/BrianPugh/torchsample/actions?query=workflow%3Atests
-   :alt: GHA Status
-.. |Codecov report| image:: https://codecov.io/github/BrianPugh/torchsample/coverage.svg?branch=main
-   :target: https://codecov.io/github/BrianPugh/torchsample?branch=main
-   :alt: Coverage
-.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
-   :target: https://github.com/pre-commit/pre-commit
-   :alt: pre-commit
-.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/psf/black
-   :alt: black
 
 Design Decisions
 ----------------
@@ -126,6 +128,21 @@ Design Decisions
 * Try and mimic native ``pytorch`` and ``torchvision`` interfaces as
   much as possible.
 * Try and make the common-usecase as simple and intuitive as possible.
+
+
+
+.. |GHA tests| image:: https://github.com/BrianPugh/torchsample/workflows/tests/badge.svg
+   :target: https://github.com/BrianPugh/torchsample/actions?query=workflow%3Atests
+   :alt: GHA Status
+.. |Codecov report| image:: https://codecov.io/github/BrianPugh/torchsample/coverage.svg?branch=main
+   :target: https://codecov.io/github/BrianPugh/torchsample?branch=main
+   :alt: Coverage
+.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+   :target: https://github.com/pre-commit/pre-commit
+   :alt: pre-commit
+.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+   :alt: black
 
 
 .. _Learning Continuous Image Representation with Local Implicit Image Function: https://arxiv.org/pdf/2012.09161.pdf

@@ -49,7 +49,7 @@ def nearest_pixel(coords, size, align_corners=default.align_corners):
     instead of ``[-0.5, 0.5]``
 
     From:
-        High Quality Segmentation for Ultra High-resolution Images arXiv:2111.14482v3
+        High Quality Segmentation for Ultra High-resolution Images
 
     Example
     -------
