@@ -14,7 +14,7 @@ class MLP(nn.Module):
 
         Parameters
         ----------
-        layers : tuple
+        layers : list or tuple
             List of how many nodes each layer should have.
             Must be at least 2 long.
         activation : callable
@@ -22,13 +22,16 @@ class MLP(nn.Module):
             the output layer. Defaults to ``relu``.
         """
         super().__init__()
-        layers = []
+        if len(layers) == 1:
+            # Assume user passed in a list
+            # instead of unpacking
+            layers = layers[0]
+
+        self.activation = activation
+
+        self.layers = nn.ModuleList()
         for in_dim, out_dim in zip(layers[:-1], layers[1:]):
-            layers.append(nn.Linear(in_dim, out_dim))
-            layers.append(activation)
-        # Remove the last activation
-        layers = layers[:-1]
-        self.layers = nn.Sequential(*layers)
+            self.layers.append(nn.Linear(in_dim, out_dim))
 
     def forward(self, x):
         """Forward pass through linear and activation layers.
@@ -44,5 +47,9 @@ class MLP(nn.Module):
             (..., feat_out) shaped tensor.
         """
         shape = x.shape[:-1]
-        x = self.layers(x.view(-1, x.shape[-1]))
-        return x.view(*shape, -1)
+        x = x.view(-1, x.shape[-1])
+        for layer in self.layers:
+            x = layer(x)
+            x = self.activation(x)
+        x = x.view(*shape, -1)
+        return x
