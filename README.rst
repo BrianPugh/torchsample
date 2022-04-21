@@ -1,7 +1,6 @@
-|GHA tests| |Codecov report| |pre-commit| |black|
+.. image:: assets/banner-white-bg-512w.png
 
-TorchSample
-===========
+|GHA tests| |Codecov report| |pre-commit| |black|
 
 Lightweight pytorch utilities for neural network sampling.
 
@@ -24,28 +23,6 @@ indexing, ordering, among other things.
 ``torchsample`` intends to make it dead simple so you can
 focus on other parts of the model.
 
-Design Decisions
-----------------
-
-* ``align_corners=False`` by default (same as Pytorch).
-  You should probably not touch it; `explanation here`_.
-* Everything is in normalized coordinates ``[-1, 1]`` by default.
-* Coordinates are always in order ``(x, y, ...)``.
-* Whenever a size is given, it will be in ``(w, h)`` order;
-  i.e. matches coordinate order. It makes implementation simpler
-  and a consistent rule helps prevent bugs.
-* When ``coords`` is a function argument, it comes first.
-* Simple wrapper functions are provided (like ``ts.coord.rand``) are
-  provided to make the intentions of calling code more clear.
-* Try and mimic native ``pytorch`` and ``torchvision`` interfaces as
-  much as possible.
-* Try and make the common-usecase as simple and intuitive as possible.
-
-TODO
-----
-* Most functionality was created with 2D use-cases in mind. Need to update
-  APIs to take into account 3D use-cases.
-
 Usage
 -----
 
@@ -61,9 +38,10 @@ from the ground truth.
   b, c, h, w = batch["image"].shape
   coords = ts.coord.rand(b, 4096, 2)  # (b, 4096, 2) where the last dim is (x, y)
 
-  feat_map = encoder(batch["image"])  # (b, feat, h, w)
-  sampled = ts.sample(coords, feat_map)  # (b, 4096, feat)
+  featmap = encoder(batch["image"])  # (b, feat, h, w)
+  sampled = ts.sample(coords, featmap)  # (b, 4096, feat)
   gt_sample = ts.sample(coords, batch["gt"])
+
 
 Inference
 ^^^^^^^^^
@@ -76,10 +54,11 @@ image is common.
   import torchsample as ts
 
   b, c, h, w = batch["image"].shape
-  output = torch.zeros(b, 1, h, w)
-  index_coords, norm_coords = ts.coord.full_like(h, w, 2)  # (1, h*w, 2)
-  feat_map = encoder(batch["image"])  # (b, feat, h, w)
-  output[index_coords] = model(feat_map[norm_coords])
+  coords = ts.coord.full_like(batch["image"])
+  featmap = encoder(batch["image"])  # (b, feat, h, w)
+  feat_sampled = ts.sample(coords, featmap)  # (b, h, w, c)
+  output = model(featmap)  # (b, h, w, pred)
+  output = output.permute(0, 3, 1, 2)
 
 
 Positional Encoding
@@ -93,6 +72,7 @@ Common positional encoding schemes are available.
   coords = ts.coord.rand(b, 4096, 2)
   pos_enc = ts.encoding.gamma(coords)
 
+
 A common task it concatenating the positional encoding to
 sampled values. You can do this by passing a callable into
 ``ts.sample``:
@@ -102,7 +82,7 @@ sampled values. You can do this by passing a callable into
   import torchsample as ts
 
   encoder = ts.encoding.Gamma()
-  sampled = ts.sample(coords, feat_map, encoder=encoder)
+  sampled = ts.sample(coords, featmap, encoder=encoder)
 
 
 Models
@@ -129,6 +109,24 @@ Models
 .. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
    :alt: black
+
+Design Decisions
+----------------
+
+* ``align_corners=False`` by default (same as Pytorch).
+  You should probably not touch it; `explanation here`_.
+* Everything is in normalized coordinates ``[-1, 1]`` by default.
+* Coordinates are always in order ``(x, y, ...)``.
+* Whenever a size is given, it will be in ``(w, h)`` order;
+  i.e. matches coordinate order. It makes implementation simpler
+  and a consistent rule helps prevent bugs.
+* When ``coords`` is a function argument, it comes first.
+* Simple wrapper functions are provided (like ``ts.coord.rand``) are
+  provided to make the intentions of calling code more clear.
+* Try and mimic native ``pytorch`` and ``torchvision`` interfaces as
+  much as possible.
+* Try and make the common-usecase as simple and intuitive as possible.
+
 
 .. _Learning Continuous Image Representation with Local Implicit Image Function: https://arxiv.org/pdf/2012.09161.pdf
 .. _NeRF\: Representing Scenes as Neural Radiance Fields for View Synthesis: https://arxiv.org/pdf/2003.08934.pdf
