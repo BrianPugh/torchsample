@@ -1,1 +1,2 @@
-align_corners = True
+align_corners = False
+padding_mode = "border"

@@ -16,7 +16,13 @@ def test_sample2d_coords_shape3():
             [0.0, 1.0],
             [1.0, 1.0],
             # Trying out small interpolations.
+            # Any value below -0.5 shouldn't change value.
             [-0.9, -1],
+            [-0.6, -1],
+            [-0.5, -1],
+            # Coordinates that are a little less nice
+            [-0.5 + 0.25, -0.5],  # 1/4 pixel towards (1x, 0y)
+            [-0.5, -0.5 + 0.25],  # 1/4 pixel towards (0x, 1y)
         ]
     )[None]
     n_coords = coords.shape[1]
@@ -30,8 +36,6 @@ def test_sample2d_coords_shape3():
     # Top Row
     # [-1, -1]: top-left pixel
     # This in unnormalized coorinates gets mapped to (-0.5, -0.5).
-    # If ``align_corners=True, padding_mode="zeros"``,
-    # then the interpolated value is ``2.5``.
     assert torch.allclose(actual[0, 0], torch.tensor(10.0))
     # [0, -1]: middle between 10 and 20
     assert torch.allclose(actual[0, 1], torch.tensor(15.0))
@@ -47,7 +51,14 @@ def test_sample2d_coords_shape3():
     assert torch.allclose(actual[0, 5], torch.tensor(40.0))
 
     # Trying out small interpolations.
-    assert torch.allclose(actual[0, 6], torch.tensor(0.95 * 10 + 0.05 * 20))
+    # These shouldn't change value due to border padding.
+    assert torch.allclose(actual[0, 6], torch.tensor(10.0))
+    assert torch.allclose(actual[0, 7], torch.tensor(10.0))
+    assert torch.allclose(actual[0, 8], torch.tensor(10.0))
+
+    # Coordinates that are a little less nice
+    assert torch.allclose(actual[0, 9], torch.tensor(12.5))
+    assert torch.allclose(actual[0, 10], torch.tensor(15.0))
 
 
 def test_sample_unified_2d():

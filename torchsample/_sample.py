@@ -8,7 +8,7 @@ def sample2d(
     coords,
     featmap,
     mode="bilinear",
-    padding_mode="border",
+    padding_mode=default.padding_mode,
     align_corners=default.align_corners,
     encoder=None,
 ):
