@@ -129,3 +129,35 @@ def test_full_like_match_full():
     assert full_coords.shape == full_like_coords.shape
     assert full_like_coords.shape == (3, 5, 6, 2)
     assert_close(full_coords, full_like_coords)
+
+
+def test_rand_biased():
+    """Only exercises the code. No assertions.
+
+    Coordinates can be visualized by uncommenting the code in test.
+    """
+    pred = torch.tensor(
+        [
+            [
+                [0.8, 0.5, 0.95],
+                [0.2, 0.5, 0.0],
+                [1.0, 1.0, 1.0],
+            ],
+            [
+                [0.2, 0.5, 0.05],
+                [0.8, 0.5, 1.0],
+                [0.0, 0.0, 0.0],
+            ],
+        ]
+    )[None]
+
+    actual = ts.coord.rand_biased(1, 1000, pred)
+
+    if False:
+        import matplotlib.pyplot as plt
+
+        actual = actual[0].numpy()
+        plt.scatter(actual[:, 0], actual[:, 1])
+        plt.axis([-1, 1, -1, 1])
+        plt.gca().invert_yaxis()
+        plt.show()
