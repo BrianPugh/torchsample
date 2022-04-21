@@ -1,7 +1,7 @@
 import pytest
 import torch
-from torch.testing import assert_close
 from markers import cuda
+from torch.testing import assert_close
 
 import torchsample as ts
 
