@@ -1,6 +1,7 @@
 from functools import partial
 
 import torch
+from markers import cuda
 
 import torchsample as ts
 
@@ -60,3 +61,24 @@ def test_nearest_pixel_halfway():
     assert allclose(actual[0, 2, 2:], 2.0 * torch.tensor([0.5, 0.0]))
     # just over halfway to second pixel down
     assert allclose(actual[0, 3, 2:], 2.0 * torch.tensor([0.0, 0.5]))
+
+
+@cuda
+def test_nearest_pixel_cuda():
+    coords = torch.rand(3, 4, 2, device="cuda")
+    actual = ts.encoding.nearest_pixel(coords, (640, 480))
+    assert actual.device.type == "cuda"
+
+
+@cuda
+def test_identity_cuda():
+    coords = torch.rand(3, 4, 2, device="cuda")
+    actual = ts.encoding.identity(coords)
+    assert actual.device.type == "cuda"
+
+
+@cuda
+def test_gamma_cuda():
+    coords = torch.rand(3, 4, 2, device="cuda")
+    actual = ts.encoding.gamma(coords)
+    assert actual.device.type == "cuda"
