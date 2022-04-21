@@ -53,7 +53,7 @@ from the ground truth.
   b, c, h, w = batch["image"].shape
   coords = ts.coord.rand(b, 4096, 2)  # (b, 4096, 2) where the last dim is (x, y)
 
-  featmap = encoder(batch["image"])  # (b, feat, h, w)
+  featmap = feature_extractor(batch["image"])  # (b, feat, h, w)
   sampled = ts.sample(coords, featmap)  # (b, 4096, feat)
   gt_sample = ts.sample(coords, batch["gt"])
 
