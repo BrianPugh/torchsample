@@ -1,4 +1,5 @@
 import torch
+from markers import cuda
 from torch.testing import assert_close
 
 import torchsample as ts
@@ -61,6 +62,14 @@ def test_sample2d_coords_shape3():
     assert torch.allclose(actual[0, 10], torch.tensor(15.0))
 
 
+@cuda
+def test_sample2d_coords_shape3_cuda():
+    coords = torch.rand(3, 4, 2, device="cuda")
+    featmap = torch.rand(3, 10, 480, 640, device="cuda")
+    actual = ts.sample2d(coords, featmap)
+    assert actual.device.type == "cuda"
+
+
 def test_sample_unified_2d():
     featmap = torch.rand(10, 3, 192, 256)
     coords = ts.coord.rand(10, 4096)
@@ -68,6 +77,14 @@ def test_sample_unified_2d():
     sample_out = ts.sample(coords, featmap)
     sample2d_out = ts.sample2d(coords, featmap)
     assert_close(sample_out, sample2d_out)
+
+
+@cuda
+def test_sample_unified_2d_cuda():
+    coords = torch.rand(3, 4, 2, device="cuda")
+    featmap = torch.rand(3, 10, 480, 640, device="cuda")
+    actual = ts.sample(coords, featmap)
+    assert actual.device.type == "cuda"
 
 
 def test_sample3d_coords_shape4():
@@ -82,3 +99,11 @@ def test_sample_unified_3d():
     sample_out = ts.sample(coords, featmap)
     sample3d_out = ts.sample3d(coords, featmap)
     assert_close(sample_out, sample3d_out)
+
+
+@cuda
+def test_sample_unified_3d_cuda():
+    featmap = torch.rand(10, 3, 5, 192, 256, device="cuda")
+    coords = ts.coord.rand(10, 4096, 3, device="cuda")
+    actual = ts.sample(coords, featmap)
+    assert actual.device.type == "cuda"
