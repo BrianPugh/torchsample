@@ -27,7 +27,8 @@ focus on other parts of the model.
 Design Decisions
 ----------------
 
-* ``align_corners=True`` by default.
+* ``align_corners=False`` by default (same as Pytorch).
+  You should probably not touch it; `explanation here`_.
 * Everything is in normalized coordinates ``[-1, 1]`` by default.
 * Coordinates are always in order ``(x, y, ...)``.
 * Whenever a size is given, it will be in ``(w, h)`` order;
@@ -132,3 +133,4 @@ Models
 .. _Learning Continuous Image Representation with Local Implicit Image Function: https://arxiv.org/pdf/2012.09161.pdf
 .. _NeRF\: Representing Scenes as Neural Radiance Fields for View Synthesis: https://arxiv.org/pdf/2003.08934.pdf
 .. _PointRend\: Image Segmentation as Rendering: https://arxiv.org/pdf/1912.08193.pdf
+.. _explanation here: docs/align_corners.rst
