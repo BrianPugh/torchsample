@@ -1,6 +1,7 @@
 import pytest
 import torch
 from torch.testing import assert_close
+from markers import cuda
 
 import torchsample as ts
 
@@ -101,6 +102,12 @@ def test_rand():
     assert actual.shape == (5, 4096, 2)
     assert 0.99 < actual.max() <= 1.0
     assert -0.99 > actual.min() >= -1.0
+
+
+@cuda
+def test_rand_cuda():
+    actual = ts.coord.rand(5, 4096, device="cuda")
+    assert actual.device.type == "cuda"
 
 
 def test_full_single_batch_2d():
