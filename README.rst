@@ -3,22 +3,24 @@
 TorchSample
 ===========
 
-Lightweight pytorch helpers for neural network sampling.
+Lightweight pytorch utilities for neural network sampling.
 
-**WARNING: API is not yet stable. Use at your own risk!**
+**WARNING: API is not yet stable. API subject to change!**
 
 Introduction
 ------------
-Sampling neural networks has become more and more common
+Sampling neural networks has become more and more common with popular
+developments like:
 
-* LIIF
-* NeRF
-* PointRend
+* `Learning Continuous Image Representation with Local Implicit Image Function`_
+* `NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis`_
+* `PointRend: Image Segmentation as Rendering`_
 
 PyTorch provides builtin functions that allow you to sample
-coordinates, but they're not super intuitive to use.
-Its very easy to get confusion over coordinates, indexing,
-ordering, among other things.
+coordinates, but they're not super intuitive to use in a
+proper way.
+Its very easy to get confusion over coordinates, normalization,
+indexing, ordering, among other things.
 ``torchsample`` intends to make it dead simple so you can
 focus on other parts of the model.
 
@@ -126,3 +128,7 @@ Models
 .. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
    :alt: black
+
+.. _Learning Continuous Image Representation with Local Implicit Image Function: https://arxiv.org/pdf/2012.09161.pdf
+.. _NeRF\: Representing Scenes as Neural Radiance Fields for View Synthesis: https://arxiv.org/pdf/2003.08934.pdf
+.. _PointRend\: Image Segmentation as Rendering: https://arxiv.org/pdf/1912.08193.pdf
