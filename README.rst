@@ -28,7 +28,7 @@ Usage
 
 Installation
 ^^^^^^^^^^^^
-Install ``torchsample`` via pip:
+Requires python ``>=3.8`` Install ``torchsample`` via pip:
 
 .. code-block:: bash
 
