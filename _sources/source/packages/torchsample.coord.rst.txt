@@ -1,0 +1,7 @@
+torchsample.coord module
+========================
+
+.. automodule:: torchsample.coord
+   :members:
+   :undoc-members:
+   :show-inheritance:

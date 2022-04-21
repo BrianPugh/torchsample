@@ -1,0 +1,7 @@
+torchsample.encoding.functional module
+======================================
+
+.. automodule:: torchsample.encoding.functional
+   :members:
+   :undoc-members:
+   :show-inheritance:

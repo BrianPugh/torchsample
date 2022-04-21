@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>torchsample.coord &#8212; torchsample 0.0.0 documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/rtd_sphinx_search.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
+    <link rel="shortcut icon" href="../../_static/logo-64w.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/banner-white-bg-200w.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../source/packages/modules.html">
+   API Reference
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../source/packages/torchsample.html">
+     torchsample package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../source/packages/torchsample.encoding.html">
+       torchsample.encoding package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../source/packages/torchsample.encoding.functional.html">
+         torchsample.encoding.functional module
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../source/packages/torchsample.encoding.oop.html">
+         torchsample.encoding.oop module
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../source/packages/torchsample.coord.html">
+       torchsample.coord module
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../source/packages/torchsample.default.html">
+       torchsample.default module
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../source/packages/torchsample.models.html">
+       torchsample.models module
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../source/changelog.html">
+   Changelog
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../py-modindex.html">
+   Module Index
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../genindex.html">
+   Index
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for torchsample.coord</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">default</span>
+<span class="kn">from</span> <span class="nn">._sample</span> <span class="kn">import</span> <span class="n">sample</span>
+
+
+<div class="viewcode-block" id="unnormalize"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.unnormalize">[docs]</a><span class="k">def</span> <span class="nf">unnormalize</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Unnormalize normalized coordinates.</span>
+
+<span class="sd">    Modified from PyTorch C source:</span>
+<span class="sd">        https://github.com/pytorch/pytorch/blob/c52290bad18d23d7decd37b581307f8241c0e8c5/aten/src/ATen/native/GridSampler.h#L26</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    coord : torch.Tensor</span>
+<span class="sd">        Values in range ``[-1, 1]`` to unnormalize.</span>
+<span class="sd">    size : int or tuple</span>
+<span class="sd">        Unnormalized side length in pixels.</span>
+<span class="sd">        If tuple, order is ``(x, y, ...)`` to match ``coord``.</span>
+<span class="sd">    align_corners : bool</span>
+<span class="sd">        if ``True``, the corner pixels of the input and output tensors are</span>
+<span class="sd">        aligned, and thus preserving the values at those pixels.</span>
+<span class="sd">    clip : bool</span>
+<span class="sd">        If ``True``, output will be clipped to range ``[0, size-1]``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    torch.Tensor</span>
+<span class="sd">        Unnormalized coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">align_corners</span><span class="p">:</span>
+        <span class="c1"># unnormalize coord from [-1, 1] to [0, size - 1]</span>
+        <span class="n">unnorm</span> <span class="o">=</span> <span class="p">((</span><span class="n">coord</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># unnormalize coord from [-1, 1] to [-0.5, size - 0.5]</span>
+        <span class="n">unnorm</span> <span class="o">=</span> <span class="p">((</span><span class="n">coord</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">if</span> <span class="n">clip</span><span class="p">:</span>
+        <span class="n">unnorm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">unnorm</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">unnorm</span></div>
+
+
+<div class="viewcode-block" id="normalize"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.normalize">[docs]</a><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Normalize unnormalized coordinates.</span>
+
+<span class="sd">    Related</span>
+<span class="sd">    -------</span>
+<span class="sd">    unnormalize</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    coord : torch.Tensor</span>
+<span class="sd">        Values in range ``[0, size-1]`` to normalize.</span>
+<span class="sd">    size : int or tuple</span>
+<span class="sd">        Unnormalized side length in pixels.</span>
+<span class="sd">        If tuple, order is ``(x, y, ...)`` to match ``coord``.</span>
+<span class="sd">    align_corners : bool</span>
+<span class="sd">        if ``True``, the corner pixels of the input and output tensors are</span>
+<span class="sd">        aligned, and thus preserving the values at those pixels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    torch.Tensor</span>
+<span class="sd">        Normalized coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">align_corners</span><span class="p">:</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">coord</span> <span class="o">/</span> <span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">coord</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">norm</span></div>
+
+
+<div class="viewcode-block" id="rand"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.rand">[docs]</a><span class="k">def</span> <span class="nf">rand</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate random coordinates in range ``[-1, 1]``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batch : int</span>
+<span class="sd">        Batch size</span>
+<span class="sd">    n_samples : int</span>
+<span class="sd">        Number of coordinates to generate per exemplar.</span>
+<span class="sd">    dims : int</span>
+<span class="sd">        ``2`` for generating ``(x, y)`` coordinates.</span>
+<span class="sd">        ``3`` for generating ``(x, y, z)`` coordinates.</span>
+<span class="sd">        Defaults to ``2``.</span>
+<span class="sd">    dtype : torch.dtype</span>
+<span class="sd">        The desired data type of returned tensor.</span>
+<span class="sd">    device : torch.device</span>
+<span class="sd">        The desired device of returned tensor</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="randint"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.randint">[docs]</a><span class="k">def</span> <span class="nf">randint</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate random pixel coordinates in range ``[-1, 1]``.</span>
+
+<span class="sd">    Unlike ``rand``, the resulting coordinates will land exactly on pixels.</span>
+<span class="sd">    Intended for sampling high resolution GT data during data loading.</span>
+
+<span class="sd">    Due to numerical precision, it is suggested to use ``mode=&quot;nearest&quot;``</span>
+<span class="sd">    when sampling featuremaps of resolution ``size`` using these coordinates.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batch : int</span>
+<span class="sd">    n_samples : int</span>
+<span class="sd">    size : tuple</span>
+<span class="sd">        Size of field to generate pixel coordinates for. i.e. ``(x, y, ...)``.</span>
+<span class="sd">    device : torch.device</span>
+<span class="sd">        The desired device of returned tensor</span>
+<span class="sd">    align_corners : bool</span>
+<span class="sd">        if ``True``, the corner pixels of the input and output tensors are</span>
+<span class="sd">        aligned, and thus preserving the values at those pixels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">size</span><span class="p">:</span>
+        <span class="n">unnorm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">unnorm</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">)</span>
+        <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">coords</span></div>
+
+
+<div class="viewcode-block" id="full"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.full">[docs]</a><span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate 2D or 3D coordinates to fully n_samples an image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    size : tuple</span>
+<span class="sd">        Tuple of length 4 (2D) ``(n, c, h, w)`` or 5 (3D) ``(n, c, d, h, w)``.</span>
+<span class="sd">        In either case, ``c`` doesn&#39;t matter and is just there so we can</span>
+<span class="sd">        conveniently use ``output.shape``.</span>
+<span class="sd">    device : torch.device</span>
+<span class="sd">        The desired device of returned tensor</span>
+<span class="sd">    align_corners : bool</span>
+<span class="sd">        if ``True``, the corner pixels of the input and output tensors are</span>
+<span class="sd">        aligned, and thus preserving the values at those pixels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    coords : torch.Tensor</span>
+<span class="sd">        ``(n, h, w, 2)`` Normalized coordinates for sampling functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]],</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">norm_coords</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">affine_grid</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">align_corners</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">norm_coords</span></div>
+
+
+<div class="viewcode-block" id="full_like"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.full_like">[docs]</a><span class="k">def</span> <span class="nf">full_like</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">full</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rand_biased"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.rand_biased">[docs]</a><span class="k">def</span> <span class="nf">rand_biased</span><span class="p">(</span>
+    <span class="n">batch</span><span class="p">,</span>
+    <span class="n">n_samples</span><span class="p">,</span>
+    <span class="n">pred</span><span class="p">,</span>
+    <span class="n">k</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+    <span class="n">beta</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+    <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Uncertainty-based point sampling.</span>
+
+<span class="sd">    Defaults are set for training, set ``beta=0`` for inference.</span>
+
+<span class="sd">    Described in training part of section 3.1 of:</span>
+<span class="sd">        PointRend: Image Segmentation as Rendering</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batch : int</span>
+<span class="sd">    n_samples : int</span>
+<span class="sd">    pred : torch.Tensor</span>
+<span class="sd">        ``(b, c, h, w)`` or ``(b, c, d, h, w)`` prediction probabilities.</span>
+<span class="sd">    k : float</span>
+<span class="sd">        Multiplier for oversampling for biased coordinates.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        Portion of coordinates to be biased towards uncertain regions.</span>
+<span class="sd">        Lower values of beta are more similar to a uniform random distribution,</span>
+<span class="sd">        ignoring ``pred``.</span>
+<span class="sd">    align_corners : bool</span>
+<span class="sd">        if ``True``, the corner pixels of the input and output tensors are</span>
+<span class="sd">        aligned, and thus preserving the values at those pixels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    torch.Tensor</span>
+<span class="sd">        (b, n_samples, dim) Normalized coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pred</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">pred</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot handle pred dimensionality </span><span class="si">{pred.ndim}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&quot;k&quot; must be &gt;=1&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">beta</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&quot;beta&quot; must be in range [0, 1]&#39;</span><span class="p">)</span>
+
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">new_empty</span><span class="p">((</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">dim</span><span class="p">))</span>
+    <span class="n">n_biased</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">n_unbiased</span> <span class="o">=</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">n_biased</span>
+
+    <span class="k">if</span> <span class="n">n_biased</span><span class="p">:</span>
+        <span class="n">oversampled_coords</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="n">n_samples</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">pred_sampled</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">oversampled_coords</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+        <span class="n">certainty</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">pred_sampled</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># (b, k*n_samples)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">certainty</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n_biased</span><span class="p">]</span>
+        <span class="n">coords</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n_biased</span><span class="p">]</span> <span class="o">=</span> <span class="n">oversampled_coords</span><span class="p">[</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">batch</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_biased</span><span class="p">),</span> <span class="n">indices</span>
+        <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">n_unbiased</span><span class="p">:</span>
+        <span class="c1"># This won&#39;t happen during testing when ``beta==0``</span>
+        <span class="n">coords</span><span class="p">[:,</span> <span class="n">n_biased</span><span class="p">:]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_unbiased</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">coords</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Brian Pugh<br/>
+  
+      &copy; Copyright 2022, Brian Pugh.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

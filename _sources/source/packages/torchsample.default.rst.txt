@@ -1,0 +1,7 @@
+torchsample.default module
+==========================
+
+.. automodule:: torchsample.default
+   :members:
+   :undoc-members:
+   :show-inheritance:

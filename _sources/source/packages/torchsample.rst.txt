@@ -1,0 +1,25 @@
+torchsample package
+===================
+
+.. automodule:: torchsample
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   torchsample.encoding
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   torchsample.coord
+   torchsample.default
+   torchsample.models
