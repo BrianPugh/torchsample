@@ -11,6 +11,21 @@ def test_mlp():
         torch.rand(7, 4096, 10),
         torch.rand(7, 4096, 3),
     ]
+    model = ts.models.MLP(10, 100, 100, 3)
+    torchtest.assert_vars_change(
+        model=model,
+        loss_fn=F.l1_loss,
+        optim=torch.optim.Adam(model.parameters()),
+        batch=batch,
+        device="cpu",
+    )
+
+
+def test_mlp_list():
+    batch = [
+        torch.rand(7, 4096, 10),
+        torch.rand(7, 4096, 3),
+    ]
     model = ts.models.MLP([10, 100, 100, 3])
     torchtest.assert_vars_change(
         model=model,
