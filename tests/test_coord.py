@@ -128,6 +128,12 @@ def test_full_single_batch_2d():
     assert (coords[0, -1, -1] == torch.Tensor([1.0, 1.0])).all()
 
 
+@cuda
+def test_full_cuda():
+    actual = ts.coord.full((1, 1, 480, 640), device="cuda")
+    assert actual.device.type == "cuda"
+
+
 def test_full_like_match_full():
     tensor = torch.rand(3, 4, 5, 6)
     full_coords = ts.coord.full(tensor.shape)
@@ -136,6 +142,13 @@ def test_full_like_match_full():
     assert full_coords.shape == full_like_coords.shape
     assert full_like_coords.shape == (3, 5, 6, 2)
     assert_close(full_coords, full_like_coords)
+
+
+@cuda
+def test_full_like_cuda():
+    tensor = torch.rand(3, 4, 5, 6)
+    actual = ts.coord.full_like(tensor, device="cuda")
+    assert actual.device.type == "cuda"
 
 
 def test_rand_biased():
@@ -168,3 +181,9 @@ def test_rand_biased():
         plt.axis([-1, 1, -1, 1])
         plt.gca().invert_yaxis()
         plt.show()
+
+
+@cuda
+def test_rand_biased_cuda():
+    actual = ts.coord.rand_biased(1, 100, torch.ones(1, 1, 480, 640, device="cuda"))
+    assert actual.device.type == "cuda"

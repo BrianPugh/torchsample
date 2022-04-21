@@ -200,6 +200,10 @@ def rand_biased(
         if ``True``, the corner pixels of the input and output tensors are
         aligned, and thus preserving the values at those pixels.
 
+    Returns
+    -------
+    torch.Tensor
+        (b, n_samples, dim) Normalized coordinates.
     """
     if pred.ndim == 4:
         dim = 2
@@ -218,7 +222,7 @@ def rand_biased(
     n_unbiased = n_samples - n_biased
 
     if n_biased:
-        oversampled_coords = rand(batch, int(k * n_samples), dim)
+        oversampled_coords = rand(batch, int(k * n_samples), dim, device=coords.device)
         pred_sampled = sample(oversampled_coords, pred)
         certainty = torch.max(pred_sampled, dim=-1).values  # (b, k*n_samples)
         _, indices = torch.sort(certainty, dim=1)
@@ -229,6 +233,6 @@ def rand_biased(
 
     if n_unbiased:
         # This won't happen during testing when ``beta==0``
-        coords[:, n_biased:] = rand(batch, n_unbiased, dim)
+        coords[:, n_biased:] = rand(batch, n_unbiased, dim, device=coords.device)
 
     return coords
