@@ -4,6 +4,19 @@ import torch.nn.functional as F
 from . import default
 
 
+def _unsqueeze_at(tensor, d, n):
+    """Unsqueeze ``tensor`` ``n`` times at dimension ``d``."""
+    return tensor[(slice(None),) * d + (None,) * n]
+
+
+def _squeeze_at(tensor, d, n):
+    """Squeeze ``tensor`` ``n`` times at dimension ``d``.
+
+    Does NOT perform a check that the dimensions are singleton.
+    """
+    return tensor[(slice(None),) * d + (0,) * n]
+
+
 def sample2d(
     coords,
     featmap,
@@ -37,14 +50,11 @@ def sample2d(
         ``(b, samples, c)`` or ``(b, h, w, c)``. Sampled featuremap.
         Features are last dimension.
     """
-    remove_singleton = False
-    if coords.ndim == 3:
-        remove_singleton = True
-        coords = coords[:, None]
-    elif coords.ndim == 4:
-        pass
-    else:
+    if not (coords.ndim == 3 or coords.ndim == 4):
         raise ValueError(f"Unknown coords shape {coords.shape=}.")
+
+    n_singleton = 4 - coords.ndim
+    coords = _unsqueeze_at(coords, 1, n_singleton)
 
     # coords are 4D at this point.
 
@@ -61,9 +71,7 @@ def sample2d(
         output = torch.cat([output, encoded], 1)
 
     output = output.permute(0, 2, 3, 1)
-
-    if remove_singleton:
-        output = output[:, 0]
+    output = _squeeze_at(output, 1, n_singleton)
 
     return output
 
@@ -101,14 +109,11 @@ def sample3d(
         ``(b, samples, c)`` or ``(b, d, h, w, c)``. Sampled featuremap.
         Features are last dimension.
     """
-    remove_singleton = False
-    if coords.ndim == 3:
-        remove_singleton = True
-        coords = coords[:, None, None]
-    elif coords.ndim == 5:
-        pass
-    else:
+    if not (coords.ndim == 3 or coords.ndim == 4 or coords.ndim == 5):
         raise ValueError(f"Unknown coords shape {coords.shape=}.")
+
+    n_singleton = 5 - coords.ndim
+    coords = _unsqueeze_at(coords, 1, n_singleton)
 
     # coords are 5D at this point.
 
@@ -125,9 +130,7 @@ def sample3d(
         output = torch.cat([output, encoded], 1)
 
     output = output.permute(0, 2, 3, 4, 1)
-
-    if remove_singleton:
-        output = output[:, 0, 0]
+    output = _squeeze_at(output, 1, n_singleton)
 
     return output
 

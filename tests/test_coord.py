@@ -43,6 +43,12 @@ def test_normalize_tuple():
     )
 
 
+def test_normalize_empty():
+    unnorm = torch.rand(5, 0, 2)
+    norm = ts.coord.normalize(unnorm, (640, 480))
+    assert_close(unnorm, norm)
+
+
 def test_unnormalize():
     norm_x = torch.tensor([-1, 1])
     actual = ts.coord.unnormalize(norm_x, 480, align_corners=True)
@@ -78,6 +84,12 @@ def test_unnormalize_tuple():
             ]
         ),
     )
+
+
+def test_unnormalize_empty():
+    norm = torch.rand(5, 0, 2)
+    unnorm = ts.coord.unnormalize(norm, (640, 480))
+    assert_close(norm, unnorm)
 
 
 def test_normalize_unnormalize_auto_align_corners_true():
