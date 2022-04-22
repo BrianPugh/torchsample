@@ -8,6 +8,13 @@ import torchsample as ts
 allclose = partial(torch.allclose, atol=1e-6)
 
 
+def test_gamma():
+    """Only exercises code; doesn't assert correct results."""
+    coords = torch.rand(3, 4, 2)
+    actual = ts.encoding.gamma(coords)
+    assert actual.shape == (3, 4, 40)
+
+
 def test_nearest_pixel_pixel_perfect():
     """Test coordinates that are exactly at pixel locations.
 
