@@ -270,3 +270,64 @@ def rand_biased(
         coords[:, n_biased:] = rand(batch, n_unbiased, dim, device=coords.device)
 
     return coords
+
+
+def uncertain(
+    pred,
+    threshold=0.5,
+    align_corners=default.align_corners,
+):
+    """Report all coordinates with uncertain scores.
+
+    Used for inference with models trained with ``rand_biased``.
+
+    .. code-block:: python
+
+        features = feature_extractor(batch["image"])
+        ss_pred = decoder(batch["image"])
+        index_coords, norm_coords = ts.coord.uncertain(ss_pred)
+        features_sampled = ts.sample(norm_coords, features)
+        refined = mlp(features_sampled)
+        ss_pred_refined = ss_pred.clone()
+        ss_pred_refined[index_coords] = ts.feat_first(refined).flatten()
+
+    Parameters
+    ----------
+    pred : torch.Tensor
+        ``(1, c, h, w)`` or ``(1, c, d, h, w)`` prediction probabilities.
+        Can NOT handle ``>1`` batch size; would result in ragged
+        tensors.
+    threshold : float
+        Coords with a max probability lower than this threshold will
+        have coordinates generated.
+    align_corners : bool
+        if ``True``, the corner pixels of the input and output tensors are
+        aligned, and thus preserving the values at those pixels.
+
+
+    Returns
+    -------
+    index_coords : tuple
+        Integer pixel coordinates that can be used to directly index
+        into ``pred``.
+    norm_coords
+        Normalized coordinates to be used with ``ts.sample``.
+        Does NOT have a batch dimension, as it would end up
+        with a ragged tensor.
+    """
+    size = tensor_to_size(pred)
+    certainty = pred.max(1, keepdim=True).values
+
+    # Expand so when indexing we also index into the all the features.
+    certainty = certainty.expand(pred.shape)
+    # (n_coords, certainty.ndim)
+    mask = certainty < threshold
+    index_coords = mask.nonzero(as_tuple=True)
+    index_coords_no_c = mask[:, 0].nonzero(as_tuple=True)
+    # Get rid of the batch index and flip the remaining
+    # (..., y, x) to get (x, y, ...)
+    pixel_coords = torch.stack(index_coords_no_c[:0:-1], -1)[None]
+
+    norm_coords = normalize(pixel_coords, size, align_corners)
+
+    return index_coords, norm_coords
