@@ -5,6 +5,28 @@ from torch.testing import assert_close
 import torchsample as ts
 
 
+def test_unsqueeze_at():
+    unsqueeze_at = ts._sample._unsqueeze_at
+    tensor = torch.rand(10, 3, 480, 640)
+
+    assert unsqueeze_at(tensor, 0, 0).shape == (10, 3, 480, 640)
+    assert unsqueeze_at(tensor, 0, 1).shape == (1, 10, 3, 480, 640)
+    assert unsqueeze_at(tensor, 0, 2).shape == (1, 1, 10, 3, 480, 640)
+
+    assert unsqueeze_at(tensor, 2, 0).shape == (10, 3, 480, 640)
+    assert unsqueeze_at(tensor, 2, 1).shape == (10, 3, 1, 480, 640)
+    assert unsqueeze_at(tensor, 2, 2).shape == (10, 3, 1, 1, 480, 640)
+
+
+def test_squeeze_at():
+    squeeze_at = ts._sample._squeeze_at
+    tensor = torch.rand(10, 3, 1, 1, 480, 640)
+
+    assert squeeze_at(tensor, 0, 0).shape == (10, 3, 1, 1, 480, 640)
+    assert squeeze_at(tensor, 2, 1).shape == (10, 3, 1, 480, 640)
+    assert squeeze_at(tensor, 2, 2).shape == (10, 3, 480, 640)
+
+
 def test_sample2d_coords_shape3():
     coords = torch.tensor(
         [

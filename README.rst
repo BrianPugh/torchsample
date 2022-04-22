@@ -2,13 +2,13 @@
 
 |GHA tests| |Codecov report| |readthedocs|
 
-Lightweight pytorch utilities for neural network sampling.
+Lightweight pytorch utilities for neural network featuremap sampling.
 
 **WARNING: API is not yet stable. API subject to change!**
 
 Introduction
 ------------
-Sampling neural networks has become more and more common with popular
+Sampling neural network featuremaps has become more and more common with popular
 developments like:
 
 * `Learning Continuous Image Representation with Local Implicit Image Function`_

@@ -5,7 +5,22 @@ from . import default
 from ._sample import sample
 
 
-def unnormalize(coord, size, align_corners, clip=False):
+def tensor_to_size(tensor):
+    """Field size from tensor."""
+    return tensor.shape[:1:-1]
+
+
+def feat_first(tensor):
+    """Move the features (last dim) to dim1."""
+    return tensor.movedim(-1, 1)
+
+
+def feat_last(tensor):
+    """Move the features (dim1) to last dim."""
+    return tensor.movedim(1, -1)
+
+
+def unnormalize(coord, size, align_corners=default.align_corners, clip=False):
     """Unnormalize normalized coordinates.
 
     Modified from PyTorch C source:
@@ -29,8 +44,17 @@ def unnormalize(coord, size, align_corners, clip=False):
     torch.Tensor
         Unnormalized coordinates.
     """
-    size = coord.new_tensor(size)
-    size = size[(None,) * (coord.ndim - 1)]
+    if coord.numel() == 0:
+        return coord
+
+    if isinstance(size, int):
+        size = coord.new_tensor(size)
+        size = size[(None,) * coord.ndim]
+    else:
+        # List, Tuple
+        size = coord.new_tensor(size)
+        size = size[(None,) * (coord.ndim - 1)]
+
     if align_corners:
         # unnormalize coord from [-1, 1] to [0, size - 1]
         unnorm = ((coord + 1) / 2) * (size - 1)
@@ -44,7 +68,11 @@ def unnormalize(coord, size, align_corners, clip=False):
     return unnorm
 
 
-def normalize(coord, size, align_corners):
+def normalize(
+    coord,
+    size,
+    align_corners=default.align_corners,
+):
     """Normalize unnormalized coordinates.
 
     Related
@@ -67,8 +95,16 @@ def normalize(coord, size, align_corners):
     torch.Tensor
         Normalized coordinates.
     """
-    size = coord.new_tensor(size)
-    size = size[(None,) * (coord.ndim - 1)]
+    if coord.numel() == 0:
+        return coord
+
+    if isinstance(size, int):
+        size = coord.new_tensor(size)
+        size = size[(None,) * coord.ndim]
+    else:
+        # List, Tuple
+        size = coord.new_tensor(size)
+        size = size[(None,) * (coord.ndim - 1)]
 
     if align_corners:
         norm = (coord / (size - 1)) * 2 - 1
@@ -178,8 +214,6 @@ def rand_biased(
     align_corners=default.align_corners,
 ):
     """Uncertainty-based point sampling.
-
-    Defaults are set for training, set ``beta=0`` for inference.
 
     Described in training part of section 3.1 of:
         PointRend: Image Segmentation as Rendering
