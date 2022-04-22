@@ -12,3 +12,7 @@ coverage:
         # noisy red coverage status on github PRs.
         target: auto
         threshold: 1%
+
+ignore:
+  - torchsample/__init__.py
+  - torchsample/__meta__.py
