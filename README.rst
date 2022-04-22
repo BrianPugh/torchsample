@@ -1,6 +1,6 @@
 .. image:: assets/banner-white-bg-512w.png
 
-|GHA tests| |Codecov report| |pre-commit| |black|
+|GHA tests| |Codecov report| |readthedocs|
 
 Lightweight pytorch utilities for neural network sampling.
 
@@ -138,12 +138,9 @@ Design Decisions
 .. |Codecov report| image:: https://codecov.io/github/BrianPugh/torchsample/coverage.svg?branch=main
    :target: https://codecov.io/github/BrianPugh/torchsample?branch=main
    :alt: Coverage
-.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
-   :target: https://github.com/pre-commit/pre-commit
-   :alt: pre-commit
-.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/psf/black
-   :alt: black
+.. |readthedocs| image:: https://readthedocs.org/projects/torchsample/badge/?version=latest
+        :target: https://torchsample.readthedocs.io/en/latest/?badge=latest
+        :alt: Documentation Status
 
 
 .. _Learning Continuous Image Representation with Local Implicit Image Function: https://arxiv.org/pdf/2012.09161.pdf
