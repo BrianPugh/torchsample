@@ -163,27 +163,31 @@ def test_full_like_cuda():
     assert actual.device.type == "cuda"
 
 
-def test_rand_biased():
-    """Only exercises the code. No assertions.
-
-    Coordinates can be visualized by uncommenting the code in test.
-    """
+@pytest.fixture
+def ss_pred():
     pred = torch.tensor(
         [
             [
                 [0.8, 0.5, 0.95],
                 [0.2, 0.5, 0.0],
-                [1.0, 1.0, 1.0],
+                [0.5, 1.0, 1.0],
             ],
             [
                 [0.2, 0.5, 0.05],
                 [0.8, 0.5, 1.0],
-                [0.0, 0.0, 0.0],
+                [0.5, 0.0, 0.0],
             ],
         ]
     )[None]
+    return pred
 
-    actual = ts.coord.rand_biased(1, 1000, pred)
+
+def test_rand_biased(ss_pred):
+    """Only exercises the code. No assertions.
+
+    Coordinates can be visualized by uncommenting the code in test.
+    """
+    actual = ts.coord.rand_biased(1, 1000, ss_pred)
 
     if False:
         import matplotlib.pyplot as plt
@@ -197,5 +201,41 @@ def test_rand_biased():
 
 @cuda
 def test_rand_biased_cuda():
+    actual = ts.coord.rand_biased(1, 100, torch.ones(1, 1, 480, 640, device="cuda"))
+    assert actual.device.type == "cuda"
+
+
+def test_uncertain(ss_pred):
+    # Make it a batch of 2
+    index_coords, norm_coords = ts.coord.uncertain(ss_pred, threshold=0.9)
+
+    # Test that index_coords are as we expect.
+    actual = torch.zeros_like(ss_pred)
+    actual[index_coords] = 1
+    assert (
+        actual
+        == torch.tensor(
+            [
+                [
+                    [[1.0, 1.0, 0.0], [1.0, 1.0, 0.0], [1.0, 0.0, 0.0]],
+                    [[1.0, 1.0, 0.0], [1.0, 1.0, 0.0], [1.0, 0.0, 0.0]],
+                ]
+            ]
+        )
+    ).all()
+
+    actual = ss_pred.clone()
+    actual[index_coords] = ts.feat_first(ts.sample(norm_coords, ss_pred)).flatten()
+    assert_close(ss_pred, actual)
+
+
+def test_uncertain_empty(ss_pred):
+    index_coords, norm_coords = ts.coord.uncertain(ss_pred, threshold=0)
+    assert norm_coords.numel() == 0
+    assert ss_pred[index_coords].numel() == 0
+
+
+@cuda
+def test_uncertain_cuda():
     actual = ts.coord.rand_biased(1, 100, torch.ones(1, 1, 480, 640, device="cuda"))
     assert actual.device.type == "cuda"
