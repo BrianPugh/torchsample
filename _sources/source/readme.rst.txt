@@ -30,11 +30,12 @@ Installation
 ^^^^^^^^^^^^
 Requires python ``>=3.8`` Install ``torchsample`` via pip:
 
-.. code-block:: bash
+..
+  .. code-block:: bash
 
-  pip install torchsample
+    pip install torchsample
 
-If you want to install the nightly version:
+  If you want to install the nightly version:
 
 .. code-block:: bash
 
