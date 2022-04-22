@@ -24,6 +24,8 @@ REPO_DIRECTORY = os.path.dirname(DOCS_DIRECTORY)
 sys.path.insert(0, DOCS_DIRECTORY)
 sys.path.insert(0, REPO_DIRECTORY)
 
+import torchsample
+
 from torchsample import __meta__ as meta  # noqa: E402 isort:skip
 
 
@@ -41,7 +43,7 @@ html_favicon = "../assets/logo-64w.png"
 
 
 # The full version, including alpha/beta/rc tags
-release = meta.version
+release = torchsample.__version__
 # The short X.Y version
 version = ".".join(release.split(".")[0:2])
 
