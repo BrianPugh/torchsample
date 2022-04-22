@@ -305,6 +305,18 @@ title="Print to PDF"
   <div class="section" id="module-torchsample.coord">
 <span id="torchsample-coord-module"></span><h1>torchsample.coord module<a class="headerlink" href="#module-torchsample.coord" title="Permalink to this headline">#</a></h1>
 <dl class="py function">
+<dt class="sig sig-object py" id="torchsample.coord.feat_first">
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">feat_first</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#feat_first"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.feat_first" title="Permalink to this definition">#</a></dt>
+<dd><p>Move the features (last dim) to dim1.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torchsample.coord.feat_last">
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">feat_last</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#feat_last"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.feat_last" title="Permalink to this definition">#</a></dt>
+<dd><p>Move the features (dim1) to last dim.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="torchsample.coord.full">
 <span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#full"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.full" title="Permalink to this definition">#</a></dt>
 <dd><p>Generate 2D or 3D coordinates to fully n_samples an image.</p>
@@ -335,7 +347,7 @@ aligned, and thus preserving the values at those pixels.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="torchsample.coord.normalize">
-<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.normalize" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.normalize" title="Permalink to this definition">#</a></dt>
 <dd><p>Normalize unnormalized coordinates.</p>
 <p>unnormalize</p>
 <dl class="field-list simple">
@@ -383,7 +395,6 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">2</span
 <dt class="sig sig-object py" id="torchsample.coord.rand_biased">
 <span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">rand_biased</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#rand_biased"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.rand_biased" title="Permalink to this definition">#</a></dt>
 <dd><p>Uncertainty-based point sampling.</p>
-<p>Defaults are set for training, set <code class="docutils literal notranslate"><span class="pre">beta=0</span></code> for inference.</p>
 <dl class="simple">
 <dt>Described in training part of section 3.1 of:</dt><dd><p>PointRend: Image Segmentation as Rendering</p>
 </dd>
@@ -437,8 +448,53 @@ aligned, and thus preserving the values at those pixels.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="torchsample.coord.tensor_to_size">
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">tensor_to_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#tensor_to_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.tensor_to_size" title="Permalink to this definition">#</a></dt>
+<dd><p>Field size from tensor.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torchsample.coord.uncertain">
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">uncertain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#uncertain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.uncertain" title="Permalink to this definition">#</a></dt>
+<dd><p>Report all coordinates with uncertain scores.</p>
+<p>Used for inference with models trained with <code class="docutils literal notranslate"><span class="pre">rand_biased</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="n">feature_extractor</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">])</span>
+<span class="n">ss_pred</span> <span class="o">=</span> <span class="n">decoder</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">])</span>
+<span class="n">index_coords</span><span class="p">,</span> <span class="n">norm_coords</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">uncertain</span><span class="p">(</span><span class="n">ss_pred</span><span class="p">)</span>
+<span class="n">features_sampled</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">norm_coords</span><span class="p">,</span> <span class="n">features</span><span class="p">)</span>
+<span class="n">refined</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">(</span><span class="n">features_sampled</span><span class="p">)</span>
+<span class="n">ss_pred_refined</span> <span class="o">=</span> <span class="n">ss_pred</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+<span class="n">ss_pred_refined</span><span class="p">[</span><span class="n">index_coords</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">feat_first</span><span class="p">(</span><span class="n">refined</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pred</strong> (<em>torch.Tensor</em>) – <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">c,</span> <span class="pre">h,</span> <span class="pre">w)</span></code> or <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">c,</span> <span class="pre">d,</span> <span class="pre">h,</span> <span class="pre">w)</span></code> prediction probabilities.
+Can NOT handle <code class="docutils literal notranslate"><span class="pre">&gt;1</span></code> batch size; would result in ragged
+tensors.</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Coords with a max probability lower than this threshold will
+have coordinates generated.</p></li>
+<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, the corner pixels of the input and output tensors are
+aligned, and thus preserving the values at those pixels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>index_coords</strong> (<em>tuple</em>) – Integer pixel coordinates that can be used to directly index
+into <code class="docutils literal notranslate"><span class="pre">pred</span></code>.</p></li>
+<li><p><em>norm_coords</em> – Normalized coordinates to be used with <code class="docutils literal notranslate"><span class="pre">ts.sample</span></code>.
+Does NOT have a batch dimension, as it would end up
+with a ragged tensor.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="torchsample.coord.unnormalize">
-<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">unnormalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#unnormalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.unnormalize" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">unnormalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#unnormalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.unnormalize" title="Permalink to this definition">#</a></dt>
 <dd><p>Unnormalize normalized coordinates.</p>
 <dl class="simple">
 <dt>Modified from PyTorch C source:</dt><dd><p><a class="reference external" href="https://github.com/pytorch/pytorch/blob/c52290bad18d23d7decd37b581307f8241c0e8c5/aten/src/ATen/native/GridSampler.h#L26">https://github.com/pytorch/pytorch/blob/c52290bad18d23d7decd37b581307f8241c0e8c5/aten/src/ATen/native/GridSampler.h#L26</a></p>

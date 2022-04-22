@@ -262,7 +262,22 @@ title="Fullscreen mode"
 <span class="kn">from</span> <span class="nn">._sample</span> <span class="kn">import</span> <span class="n">sample</span>
 
 
-<div class="viewcode-block" id="unnormalize"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.unnormalize">[docs]</a><span class="k">def</span> <span class="nf">unnormalize</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="tensor_to_size"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.tensor_to_size">[docs]</a><span class="k">def</span> <span class="nf">tensor_to_size</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Field size from tensor.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="feat_first"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.feat_first">[docs]</a><span class="k">def</span> <span class="nf">feat_first</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Move the features (last dim) to dim1.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tensor</span><span class="o">.</span><span class="n">movedim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="feat_last"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.feat_last">[docs]</a><span class="k">def</span> <span class="nf">feat_last</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Move the features (dim1) to last dim.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tensor</span><span class="o">.</span><span class="n">movedim</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="unnormalize"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.unnormalize">[docs]</a><span class="k">def</span> <span class="nf">unnormalize</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Unnormalize normalized coordinates.</span>
 
 <span class="sd">    Modified from PyTorch C source:</span>
@@ -286,8 +301,17 @@ title="Fullscreen mode"
 <span class="sd">    torch.Tensor</span>
 <span class="sd">        Unnormalized coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">coord</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">coord</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="n">coord</span><span class="o">.</span><span class="n">ndim</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># List, Tuple</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+
     <span class="k">if</span> <span class="n">align_corners</span><span class="p">:</span>
         <span class="c1"># unnormalize coord from [-1, 1] to [0, size - 1]</span>
         <span class="n">unnorm</span> <span class="o">=</span> <span class="p">((</span><span class="n">coord</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -301,7 +325,11 @@ title="Fullscreen mode"
     <span class="k">return</span> <span class="n">unnorm</span></div>
 
 
-<div class="viewcode-block" id="normalize"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.normalize">[docs]</a><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">):</span>
+<div class="viewcode-block" id="normalize"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.normalize">[docs]</a><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span>
+    <span class="n">coord</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">,</span>
+    <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Normalize unnormalized coordinates.</span>
 
 <span class="sd">    Related</span>
@@ -324,8 +352,16 @@ title="Fullscreen mode"
 <span class="sd">    torch.Tensor</span>
 <span class="sd">        Normalized coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">coord</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">coord</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="n">coord</span><span class="o">.</span><span class="n">ndim</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># List, Tuple</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
 
     <span class="k">if</span> <span class="n">align_corners</span><span class="p">:</span>
         <span class="n">norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">coord</span> <span class="o">/</span> <span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
@@ -436,8 +472,6 @@ title="Fullscreen mode"
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Uncertainty-based point sampling.</span>
 
-<span class="sd">    Defaults are set for training, set ``beta=0`` for inference.</span>
-
 <span class="sd">    Described in training part of section 3.1 of:</span>
 <span class="sd">        PointRend: Image Segmentation as Rendering</span>
 
@@ -493,6 +527,67 @@ title="Fullscreen mode"
         <span class="n">coords</span><span class="p">[:,</span> <span class="n">n_biased</span><span class="p">:]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_unbiased</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">coords</span></div>
+
+
+<div class="viewcode-block" id="uncertain"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.uncertain">[docs]</a><span class="k">def</span> <span class="nf">uncertain</span><span class="p">(</span>
+    <span class="n">pred</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Report all coordinates with uncertain scores.</span>
+
+<span class="sd">    Used for inference with models trained with ``rand_biased``.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        features = feature_extractor(batch[&quot;image&quot;])</span>
+<span class="sd">        ss_pred = decoder(batch[&quot;image&quot;])</span>
+<span class="sd">        index_coords, norm_coords = ts.coord.uncertain(ss_pred)</span>
+<span class="sd">        features_sampled = ts.sample(norm_coords, features)</span>
+<span class="sd">        refined = mlp(features_sampled)</span>
+<span class="sd">        ss_pred_refined = ss_pred.clone()</span>
+<span class="sd">        ss_pred_refined[index_coords] = ts.feat_first(refined).flatten()</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pred : torch.Tensor</span>
+<span class="sd">        ``(1, c, h, w)`` or ``(1, c, d, h, w)`` prediction probabilities.</span>
+<span class="sd">        Can NOT handle ``&gt;1`` batch size; would result in ragged</span>
+<span class="sd">        tensors.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Coords with a max probability lower than this threshold will</span>
+<span class="sd">        have coordinates generated.</span>
+<span class="sd">    align_corners : bool</span>
+<span class="sd">        if ``True``, the corner pixels of the input and output tensors are</span>
+<span class="sd">        aligned, and thus preserving the values at those pixels.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    index_coords : tuple</span>
+<span class="sd">        Integer pixel coordinates that can be used to directly index</span>
+<span class="sd">        into ``pred``.</span>
+<span class="sd">    norm_coords</span>
+<span class="sd">        Normalized coordinates to be used with ``ts.sample``.</span>
+<span class="sd">        Does NOT have a batch dimension, as it would end up</span>
+<span class="sd">        with a ragged tensor.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">tensor_to_size</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+    <span class="n">certainty</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="c1"># Expand so when indexing we also index into the all the features.</span>
+    <span class="n">certainty</span> <span class="o">=</span> <span class="n">certainty</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1"># (n_coords, certainty.ndim)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">certainty</span> <span class="o">&lt;</span> <span class="n">threshold</span>
+    <span class="n">index_coords</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">as_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">index_coords_no_c</span> <span class="o">=</span> <span class="n">mask</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">as_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Get rid of the batch index and flip the remaining</span>
+    <span class="c1"># (..., y, x) to get (x, y, ...)</span>
+    <span class="n">pixel_coords</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">index_coords_no_c</span><span class="p">[:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">]</span>
+
+    <span class="n">norm_coords</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">pixel_coords</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">index_coords</span><span class="p">,</span> <span class="n">norm_coords</span></div>
 </pre></div>
 
               </div>
