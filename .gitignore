@@ -231,3 +231,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Handled by setuptools-scm
+torchsample/_version.py

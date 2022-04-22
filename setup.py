@@ -129,17 +129,12 @@ class UploadCommand(Command):
         self.status("Uploading the package to PyPI via Twine...")
         os.system("twine upload dist/*")
 
-        self.status("Pushing git tags...")
-        os.system("git tag v{0}".format(meta["version"]))
-        os.system("git push --tags")
-
         sys.exit()
 
 
 setup(
     # Essential details on the package and its dependencies
     name=meta["name"],
-    version=meta["version"],
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
     package_dir={meta["name"]: os.path.join(".", meta["path"])},
     # If any package contains *.txt or *.rst files, include them:
