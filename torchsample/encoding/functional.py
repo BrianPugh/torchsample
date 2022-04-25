@@ -74,7 +74,7 @@ def nearest_pixel(coords, size, align_corners=default.align_corners):
     Returns
     -------
     torch.Tensor
-        ``(..., 4*dim)``
+        ``(..., 2*dim)`` Normalized coordinates and nearest-pixel relative offset.
     """
     unnorm_coords = unnormalize(coords, size, align_corners)
     # 2x to scale the range from [-0.5, 0.5] to [-1, 1]
