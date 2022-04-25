@@ -139,7 +139,14 @@ def rand(batch, n_samples, dims=2, dtype=None, device=None):
     return 2 * torch.rand(batch, n_samples, dims, dtype=dtype, device=device) - 1
 
 
-def randint(batch, n_samples, size, device=None, align_corners=default.align_corners):
+def randint(
+    batch,
+    n_samples,
+    size,
+    device=None,
+    align_corners=default.align_corners,
+    replace=True,
+):
     """Generate random pixel coordinates in range ``[-1, 1]``.
 
     Unlike ``rand``, the resulting coordinates will land exactly on pixels.
@@ -159,17 +166,22 @@ def randint(batch, n_samples, size, device=None, align_corners=default.align_cor
     align_corners : bool
         if ``True``, the corner pixels of the input and output tensors are
         aligned, and thus preserving the values at those pixels.
+    replace : bool
+        Sample with or without replacement.
 
     Returns
     -------
         (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.
     """
-    coords = []
-    for s in size:
-        unnorm = torch.randint(s, size=(batch, n_samples), device=device)
-        norm = normalize(unnorm, s, align_corners)
-        coords.append(norm)
-    coords = torch.stack(coords, dim=-1)
+    if replace:
+        coords = []
+        for s in size:
+            unnorm = torch.randint(s, size=(batch, n_samples), device=device)
+            norm = normalize(unnorm, s, align_corners)
+            coords.append(norm)
+        coords = torch.stack(coords, dim=-1)
+    else:
+        raise NotImplementedError
     return coords
 
 
