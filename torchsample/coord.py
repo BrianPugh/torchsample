@@ -173,6 +173,32 @@ def randint(batch, n_samples, size, device=None, align_corners=default.align_cor
     return coords
 
 
+def randint_like(batch, n_samples, tensor, align_corners=default.align_corners):
+    """Generate random pixel coordinates in range ``[-1, 1]``.
+
+    See ``randint``.
+
+    Parameters
+    ----------
+    batch : int
+    n_samples : int
+    tensor : tuple
+        Tensor to generate random coordinates for. Coordinates will be
+        placed on same device as ``tensor``.
+    align_corners : bool
+        if ``True``, the corner pixels of the input and output tensors are
+        aligned, and thus preserving the values at those pixels.
+
+    Returns
+    -------
+        (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.
+    """
+    size = tensor_to_size(tensor)
+    return randint(
+        batch, n_samples, size, device=tensor.device, align_corners=align_corners
+    )
+
+
 def full(size, device=None, align_corners=default.align_corners):
     """Generate 2D or 3D coordinates to fully n_samples an image.
 

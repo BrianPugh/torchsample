@@ -41,6 +41,7 @@ def test_randint_align_corners_true():
     align_corners = True
     batch = torch.rand(2, 3, 480, 640)
     coords = ts.coord.randint(2, 4096, (640, 480), align_corners=align_corners)
+    coords = ts.coord.randint_like(2, 4096, batch, align_corners=align_corners)
     sampled = ts.sample2d(coords, batch, mode="nearest", align_corners=align_corners)
 
     sampled_flat = sampled.reshape(-1, 3)
@@ -52,6 +53,7 @@ def test_randint_align_corners_false():
     align_corners = False
     batch = torch.rand(2, 3, 480, 640)
     coords = ts.coord.randint(2, 4096, (640, 480), align_corners=align_corners)
+    coords = ts.coord.randint_like(2, 4096, batch, align_corners=align_corners)
     sampled = ts.sample2d(coords, batch, mode="nearest", align_corners=align_corners)
 
     sampled_flat = sampled.reshape(-1, 3)
