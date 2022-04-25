@@ -48,8 +48,9 @@ class MLP(nn.Module):
         """
         shape = x.shape[:-1]
         x = x.reshape(-1, x.shape[-1])
-        for layer in self.layers:
+        for layer in self.layers[:-1]:
             x = layer(x)
             x = self.activation(x)
+        x = self.layers[-1](x)
         x = x.view(*shape, -1)
         return x
