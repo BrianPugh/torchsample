@@ -331,7 +331,7 @@ title="Fullscreen mode"
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    torch.Tensor</span>
-<span class="sd">        ``(..., 4*dim)``</span>
+<span class="sd">        ``(..., 2*dim)`` Normalized coordinates and nearest-pixel relative offset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">unnorm_coords</span> <span class="o">=</span> <span class="n">unnormalize</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">)</span>
     <span class="c1"># 2x to scale the range from [-0.5, 0.5] to [-1, 1]</span>
