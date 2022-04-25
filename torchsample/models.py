@@ -47,7 +47,7 @@ class MLP(nn.Module):
             (..., feat_out) shaped tensor.
         """
         shape = x.shape[:-1]
-        x = x.view(-1, x.shape[-1])
+        x = x.reshape(-1, x.shape[-1])
         for layer in self.layers:
             x = layer(x)
             x = self.activation(x)
