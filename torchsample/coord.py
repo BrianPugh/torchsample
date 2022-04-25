@@ -228,7 +228,7 @@ def full(size, device=None, align_corners=default.align_corners):
 
 
 def full_like(tensor, *args, **kwargs):
-    return full(tensor.shape, *args, **kwargs)
+    return full(tensor.shape, *args, device=tensor.device, **kwargs)
 
 
 def rand_biased(
