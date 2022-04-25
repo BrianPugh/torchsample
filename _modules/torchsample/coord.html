@@ -430,6 +430,32 @@ title="Fullscreen mode"
     <span class="k">return</span> <span class="n">coords</span></div>
 
 
+<div class="viewcode-block" id="randint_like"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.randint_like">[docs]</a><span class="k">def</span> <span class="nf">randint_like</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate random pixel coordinates in range ``[-1, 1]``.</span>
+
+<span class="sd">    See ``randint``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batch : int</span>
+<span class="sd">    n_samples : int</span>
+<span class="sd">    tensor : tuple</span>
+<span class="sd">        Tensor to generate random coordinates for. Coordinates will be</span>
+<span class="sd">        placed on same device as ``tensor``.</span>
+<span class="sd">    align_corners : bool</span>
+<span class="sd">        if ``True``, the corner pixels of the input and output tensors are</span>
+<span class="sd">        aligned, and thus preserving the values at those pixels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">tensor_to_size</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">randint</span><span class="p">(</span>
+        <span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">align_corners</span>
+    <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="full"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.full">[docs]</a><span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate 2D or 3D coordinates to fully n_samples an image.</span>
 

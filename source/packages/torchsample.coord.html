@@ -448,6 +448,28 @@ aligned, and thus preserving the values at those pixels.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="torchsample.coord.randint_like">
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">randint_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#randint_like"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.randint_like" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate random pixel coordinates in range <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">randint</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>n_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>tensor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Tensor to generate random coordinates for. Coordinates will be
+placed on same device as <code class="docutils literal notranslate"><span class="pre">tensor</span></code>.</p></li>
+<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, the corner pixels of the input and output tensors are
+aligned, and thus preserving the values at those pixels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(batch, n_samples, dims) random coordinates in range <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="torchsample.coord.tensor_to_size">
 <span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">tensor_to_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#tensor_to_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.tensor_to_size" title="Permalink to this definition">#</a></dt>
 <dd><p>Field size from tensor.</p>
