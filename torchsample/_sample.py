@@ -54,7 +54,7 @@ def sample2d(
         raise ValueError(f"Unknown coords shape {coords.shape=}.")
 
     n_singleton = 4 - coords.ndim
-    coords = _unsqueeze_at(coords, 1, n_singleton)
+    coords = _unsqueeze_at(coords, 1, n_singleton)  # (b, 1, n_samples, dim)
 
     # coords are 4D at this point.
 
@@ -67,7 +67,8 @@ def sample2d(
     )
 
     if encoder is not None:
-        encoded = encoder(coords.permute(0, 3, 1, 2))
+        encoded = encoder(coords)
+        encoded = encoded.permute(0, 3, 1, 2)
         output = torch.cat([output, encoded], 1)
 
     output = output.permute(0, 2, 3, 1)
@@ -126,7 +127,8 @@ def sample3d(
     )
 
     if encoder is not None:
-        encoded = encoder(coords.permute(0, 4, 1, 2, 3))
+        encoded = encoder(coords)
+        encoded = encoded.permute(0, 4, 1, 2, 3)
         output = torch.cat([output, encoded], 1)
 
     output = output.permute(0, 2, 3, 4, 1)

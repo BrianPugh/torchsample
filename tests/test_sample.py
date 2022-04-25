@@ -53,6 +53,9 @@ def test_sample2d_coords_shape3():
     featmap = torch.tensor([[10.0, 20.0], [30.0, 40.0]])[None, None]
     featmap = featmap.repeat(1, 5, 1, 1)
 
+    actual = ts.sample2d(coords, featmap, encoder=ts.encoding.identity)
+    assert actual.shape == (1, n_coords, 7)
+
     actual = ts.sample2d(coords, featmap)
     assert actual.shape == (1, n_coords, 5)
 
