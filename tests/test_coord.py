@@ -158,8 +158,8 @@ def test_full_like_match_full():
 
 @cuda
 def test_full_like_cuda():
-    tensor = torch.rand(3, 4, 5, 6)
-    actual = ts.coord.full_like(tensor, device="cuda")
+    tensor = torch.rand(3, 4, 5, 6, device="cuda")
+    actual = ts.coord.full_like(tensor)
     assert actual.device.type == "cuda"
 
 
