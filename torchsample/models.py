@@ -9,7 +9,7 @@ class MLP(nn.Module):
     Applies the MLP to the final dimension of input tensor.
     """
 
-    def __init__(self, *layers, activation=nn.ReLU(inplace=True)):
+    def __init__(self, *layers, activation=None):
         """Construct an ``MLP`` with specified nodes-per-layer.
 
         Parameters
@@ -19,13 +19,15 @@ class MLP(nn.Module):
             Must be at least 2 long.
         activation : callable
             Activation function applied to all layers except
-            the output layer. Defaults to ``relu``.
+            the output layer. Defaults to inplace ``relu``.
         """
         super().__init__()
         if len(layers) == 1:
             # Assume user passed in a list
             # instead of unpacking
             layers = layers[0]
+        if activation is None:
+            activation = nn.ReLU(inplace=True)
 
         self.activation = activation
 
