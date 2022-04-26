@@ -167,7 +167,7 @@ def randint(
         if ``True``, the corner pixels of the input and output tensors are
         aligned, and thus preserving the values at those pixels.
     replace : bool
-        Sample with or without replacement.
+        Sample with or without replacement. Defaults to ``True``.
 
     Returns
     -------
@@ -181,18 +181,33 @@ def randint(
             coords.append(norm)
         coords = torch.stack(coords, dim=-1)
     else:
-        raise NotImplementedError
+        unnorm = torch.cartesian_prod(
+            *(torch.arange(x) for x in size),
+        ).to(device)
+        coords = normalize(unnorm, size, align_corners)
+        coords = coords[None].repeat(batch, 1, 1)
+        n_elements = coords.shape[1]
+
+        batch_select = torch.arange(batch, device=device)[:, None]
+        batch_select = batch_select.repeat(1, n_samples)
+        rand_coord_indices = torch.stack(
+            [
+                torch.randperm(n_elements, device=device)[:n_samples]
+                for _ in range(batch)
+            ],
+            dim=0,
+        )
+        coords = coords[batch_select, rand_coord_indices]
     return coords
 
 
-def randint_like(batch, n_samples, tensor, align_corners=default.align_corners):
+def randint_like(n_samples, tensor, align_corners=default.align_corners, replace=True):
     """Generate random pixel coordinates in range ``[-1, 1]``.
 
     See ``randint``.
 
     Parameters
     ----------
-    batch : int
     n_samples : int
     tensor : tuple
         Tensor to generate random coordinates for. Coordinates will be
@@ -200,14 +215,22 @@ def randint_like(batch, n_samples, tensor, align_corners=default.align_corners):
     align_corners : bool
         if ``True``, the corner pixels of the input and output tensors are
         aligned, and thus preserving the values at those pixels.
+    replace : bool
+        Sample with or without replacement. Defaults to ``True``.
 
     Returns
     -------
         (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.
     """
+    batch = tensor.shape[0]
     size = tensor_to_size(tensor)
     return randint(
-        batch, n_samples, size, device=tensor.device, align_corners=align_corners
+        batch,
+        n_samples,
+        size,
+        device=tensor.device,
+        align_corners=align_corners,
+        replace=replace,
     )
 
 

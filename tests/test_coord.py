@@ -122,6 +122,37 @@ def test_rand_cuda():
     assert actual.device.type == "cuda"
 
 
+def test_randint_2d_replace_false():
+    coords = ts.coord.randint(7, 10, (5, 3), replace=False)
+    assert coords.shape == (7, 10, 2)
+    # TODO: more assertions
+
+
+def test_randint_2d_replace_false_oversample():
+    with pytest.raises(IndexError):
+        ts.coord.randint(7, 100, (5, 3), replace=False)
+
+
+def test_randint_like():
+    feat = torch.rand(7, 5, 480, 640)
+    actual = ts.coord.randint_like(100, feat)
+    assert actual.shape == (7, 100, 2)
+
+
+@cuda
+def test_randint_cuda():
+    actual = ts.coord.randint(7, 10, (640, 480), device="cuda")
+    assert actual.device.type == "cuda"
+
+
+@cuda
+def test_randint_like_cuda():
+    feat = torch.rand(7, 5, 480, 640, device="cuda")
+    actual = ts.coord.randint_like(100, feat)
+    assert actual.shape == (7, 100, 2)
+    assert actual.device.type == "cuda"
+
+
 def test_full_single_batch_2d():
     h, w = 2, 3
     coords = ts.coord.full((1, 1, h, w), align_corners=True)
