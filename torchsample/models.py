@@ -9,7 +9,7 @@ class MLP(nn.Module):
     Applies the MLP to the final dimension of input tensor.
     """
 
-    def __init__(self, *layers, activation=F.relu):
+    def __init__(self, *layers, activation=nn.ReLU(inplace=True)):
         """Construct an ``MLP`` with specified nodes-per-layer.
 
         Parameters
