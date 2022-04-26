@@ -424,7 +424,7 @@ title="Fullscreen mode"
 <span class="sd">        if ``True``, the corner pixels of the input and output tensors are</span>
 <span class="sd">        aligned, and thus preserving the values at those pixels.</span>
 <span class="sd">    replace : bool</span>
-<span class="sd">        Sample with or without replacement.</span>
+<span class="sd">        Sample with or without replacement. Defaults to ``True``.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -438,18 +438,33 @@ title="Fullscreen mode"
             <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
         <span class="n">coords</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="n">unnorm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cartesian_prod</span><span class="p">(</span>
+            <span class="o">*</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">size</span><span class="p">),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">unnorm</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">n_elements</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">batch_select</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">batch_select</span> <span class="o">=</span> <span class="n">batch_select</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">rand_coord_indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">randperm</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)[:</span><span class="n">n_samples</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+            <span class="p">],</span>
+            <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">batch_select</span><span class="p">,</span> <span class="n">rand_coord_indices</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">coords</span></div>
 
 
-<div class="viewcode-block" id="randint_like"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.randint_like">[docs]</a><span class="k">def</span> <span class="nf">randint_like</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">):</span>
+<div class="viewcode-block" id="randint_like"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.randint_like">[docs]</a><span class="k">def</span> <span class="nf">randint_like</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate random pixel coordinates in range ``[-1, 1]``.</span>
 
 <span class="sd">    See ``randint``.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    batch : int</span>
 <span class="sd">    n_samples : int</span>
 <span class="sd">    tensor : tuple</span>
 <span class="sd">        Tensor to generate random coordinates for. Coordinates will be</span>
@@ -457,14 +472,22 @@ title="Fullscreen mode"
 <span class="sd">    align_corners : bool</span>
 <span class="sd">        if ``True``, the corner pixels of the input and output tensors are</span>
 <span class="sd">        aligned, and thus preserving the values at those pixels.</span>
+<span class="sd">    replace : bool</span>
+<span class="sd">        Sample with or without replacement. Defaults to ``True``.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">        (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">size</span> <span class="o">=</span> <span class="n">tensor_to_size</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">randint</span><span class="p">(</span>
-        <span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">align_corners</span>
+        <span class="n">batch</span><span class="p">,</span>
+        <span class="n">n_samples</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+        <span class="n">align_corners</span><span class="o">=</span><span class="n">align_corners</span><span class="p">,</span>
+        <span class="n">replace</span><span class="o">=</span><span class="n">replace</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
