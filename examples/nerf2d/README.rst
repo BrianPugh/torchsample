@@ -9,18 +9,24 @@ Results
 Without positional encoding (200, 800, and 2000 iterations):
 
 .. image:: output/polite_pos-enc=False/200.jpg
+   :width: 30%
 
 .. image:: output/polite_pos-enc=False/800.jpg
+   :width: 30%
 
 .. image:: output/polite_pos-enc=False/2000.jpg
+   :width: 30%
 
 With positional encoding (200, 800, and 2000 iterations):
 
 .. image:: output/polite_pos-enc=True/200.jpg
+   :width: 30%
 
 .. image:: output/polite_pos-enc=True/800.jpg
+   :width: 30%
 
 .. image:: output/polite_pos-enc=True/2000.jpg
+   :width: 30%
 
 
 Usage
