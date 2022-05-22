@@ -6,27 +6,40 @@ Training and querying an MLP to map coordinates to RGB values.
 Results
 ^^^^^^^
 
-Without positional encoding (200, 800, and 2000 iterations):
+**Without** positional encoding:
 
-.. image:: output/polite_pos-enc=False/200.jpg
-   :width: 30%
+.. list-table::
+  :align: center
 
-.. image:: output/polite_pos-enc=False/800.jpg
-   :width: 30%
+  * - .. image:: output/polite_pos-enc=False/200.jpg
 
-.. image:: output/polite_pos-enc=False/2000.jpg
-   :width: 30%
+      200 Iterations
 
-With positional encoding (200, 800, and 2000 iterations):
+    - .. image:: output/polite_pos-enc=False/800.jpg
 
-.. image:: output/polite_pos-enc=True/200.jpg
-   :width: 30%
+      800 Iterations
 
-.. image:: output/polite_pos-enc=True/800.jpg
-   :width: 30%
+    - .. image:: output/polite_pos-enc=False/2000.jpg
 
-.. image:: output/polite_pos-enc=True/2000.jpg
-   :width: 30%
+      2000 Iterations
+
+
+**With** positional encoding:
+
+.. list-table::
+  :align: center
+
+  * - .. image:: output/polite_pos-enc=True/200.jpg
+
+      200 Iterations
+
+    - .. image:: output/polite_pos-enc=True/800.jpg
+
+      800 Iterations
+
+    - .. image:: output/polite_pos-enc=True/2000.jpg
+
+      2000 Iterations
 
 
 Usage
