@@ -61,7 +61,7 @@ def test_sample2d_coords_shape3():
 
     # Top Row
     # [-1, -1]: top-left pixel
-    # This in unnormalized coorinates gets mapped to (-0.5, -0.5).
+    # This in unnormalized coordinates gets mapped to (-0.5, -0.5).
     assert torch.allclose(actual[0, 0], torch.tensor(10.0))
     # [0, -1]: middle between 10 and 20
     assert torch.allclose(actual[0, 1], torch.tensor(15.0))
