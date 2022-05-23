@@ -2,6 +2,7 @@ import torch
 import torch.nn.functional as F
 
 from . import default
+from ._nobatch import nobatch
 from ._sample import sample
 
 
@@ -120,7 +121,7 @@ def rand(batch, n_samples, dims=2, dtype=None, device=None):
     Parameters
     ----------
     batch : int
-        Batch size
+        Batch size. If ``0``, don't return a batch dimension.
     n_samples : int
         Number of coordinates to generate per exemplar.
     dims : int
@@ -136,7 +137,10 @@ def rand(batch, n_samples, dims=2, dtype=None, device=None):
     -------
         (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.
     """
-    return 2 * torch.rand(batch, n_samples, dims, dtype=dtype, device=device) - 1
+    if batch == 0:
+        return 2 * torch.rand(n_samples, dims, dtype=dtype, device=device) - 1
+    else:
+        return 2 * torch.rand(batch, n_samples, dims, dtype=dtype, device=device) - 1
 
 
 def randint(
@@ -158,6 +162,7 @@ def randint(
     Parameters
     ----------
     batch : int
+        Batch size. If ``0``, don't return a batch dimension.
     n_samples : int
     size : tuple
         Size of field to generate pixel coordinates for. i.e. ``(x, y, ...)``.
@@ -173,6 +178,11 @@ def randint(
     -------
         (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.
     """
+    return_nobatch = False
+    if batch == 0:
+        batch = 1
+        return_nobatch = True
+
     if replace:
         coords = []
         for s in size:
@@ -198,9 +208,14 @@ def randint(
             dim=0,
         )
         coords = coords[batch_select, rand_coord_indices]
-    return coords
+
+    if return_nobatch:
+        return coords[0]
+    else:
+        return coords
 
 
+@nobatch
 def randint_like(n_samples, tensor, align_corners=default.align_corners, replace=True):
     """Generate random pixel coordinates in range ``[-1, 1]``.
 
@@ -234,6 +249,7 @@ def randint_like(n_samples, tensor, align_corners=default.align_corners, replace
     )
 
 
+@nobatch
 def full(size, device=None, align_corners=default.align_corners):
     """Generate 2D or 3D coordinates to fully n_samples an image.
 
@@ -262,6 +278,7 @@ def full(size, device=None, align_corners=default.align_corners):
     return norm_coords
 
 
+@nobatch
 def full_like(tensor, *args, **kwargs):
     return full(tensor.shape, *args, device=tensor.device, **kwargs)
 
@@ -282,7 +299,9 @@ def rand_biased(
     Parameters
     ----------
     batch : int
+        Batch size. If ``0``, don't return a batch dimension.
     n_samples : int
+        Number of coordinates to generate per exemplar.
     pred : torch.Tensor
         ``(b, c, h, w)`` or ``(b, c, d, h, w)`` prediction probabilities.
     k : float
@@ -307,6 +326,11 @@ def rand_biased(
     else:
         raise ValueError(f"Cannot handle pred dimensionality {pred.ndim}.")
 
+    return_nobatch = False
+    if batch == 0:
+        batch = 1
+        return_nobatch = True
+
     if k < 1:
         raise ValueError('"k" must be >=1')
     if not (0 <= beta <= 1):
@@ -330,7 +354,10 @@ def rand_biased(
         # This won't happen during testing when ``beta==0``
         coords[:, n_biased:] = rand(batch, n_unbiased, dim, device=coords.device)
 
-    return coords
+    if return_nobatch:
+        return coords[0]
+    else:
+        return coords
 
 
 def uncertain(

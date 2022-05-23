@@ -22,7 +22,7 @@ transform = transforms.Compose(
 class SingleImageDataset(IterableDataset):
     def __init__(self, fn, batch_size):
         self.image = cv2.cvtColor(cv2.imread(str(fn)), cv2.COLOR_BGR2RGB)
-        self.image = transform(self.image)[None]  # (1, 3, h, w)
+        self.image = transform(self.image)  # (3, h, w)
         self.batch_size = batch_size
         self.size = self.image.shape[-1], self.image.shape[-2]  # (x, y)
 
@@ -30,13 +30,9 @@ class SingleImageDataset(IterableDataset):
         while True:
             out = {}
             out["coords"] = ts.coord.randint(
-                1, self.batch_size, self.size, replace=False
+                0, self.batch_size, self.size, replace=False
             )
-            out["rgb"] = ts.sample(out["coords"], self.image, mode="nearest")
-
-            for key in ["coords", "rgb"]:
-                out[key] = out[key][0]  # Remove the fake batch dim
-
+            out["rgb"] = ts.sample.nobatch(out["coords"], self.image, mode="nearest")
             yield out
 
 
@@ -106,13 +102,13 @@ def main():
         optimizer.step()
 
         if (iteration + 1) % args.save_freq == 0 or iteration == args.iterations - 1:
-            coords = ts.coord.full_like(dataset.image)
+            coords = ts.coord.full_like.nobatch(dataset.image)
 
             if args.pos_enc:
                 coords = ts.encoding.gamma(coords)
 
             with torch.no_grad():
-                raster = model(coords)[0]
+                raster = model(coords)
                 raster = raster.numpy()
 
             # Undo the normalization
