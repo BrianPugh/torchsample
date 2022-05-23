@@ -5,11 +5,7 @@ import torch
 
 def _slice_first(obj):
     if isinstance(obj, torch.Tensor):
-        if obj.shape[0] == 1:
-            return obj[0]
-        else:
-            # Maybe just return ``obj``?
-            raise NotImplementedError("Expected first dim to be singleton.")
+        return obj[0]
     elif isinstance(obj, list):
         return [_slice_first(x) for x in obj]
     elif isinstance(obj, tuple):
