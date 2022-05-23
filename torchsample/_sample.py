@@ -2,6 +2,7 @@ import torch
 import torch.nn.functional as F
 
 from . import default
+from ._nobatch import nobatch
 
 
 def _unsqueeze_at(tensor, d, n):
@@ -17,6 +18,7 @@ def _squeeze_at(tensor, d, n):
     return tensor[(slice(None),) * d + (0,) * n]
 
 
+@nobatch
 def sample2d(
     coords,
     featmap,
@@ -77,6 +79,7 @@ def sample2d(
     return output
 
 
+@nobatch
 def sample3d(
     coords,
     featmap,
@@ -137,6 +140,7 @@ def sample3d(
     return output
 
 
+@nobatch
 def sample(
     coords,
     featmap,
