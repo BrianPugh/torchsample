@@ -259,6 +259,7 @@ title="Fullscreen mode"
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">default</span>
+<span class="kn">from</span> <span class="nn">._nobatch</span> <span class="kn">import</span> <span class="n">nobatch</span>
 <span class="kn">from</span> <span class="nn">._sample</span> <span class="kn">import</span> <span class="n">sample</span>
 
 
@@ -377,7 +378,7 @@ title="Fullscreen mode"
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    batch : int</span>
-<span class="sd">        Batch size</span>
+<span class="sd">        Batch size. If ``0``, don&#39;t return a batch dimension.</span>
 <span class="sd">    n_samples : int</span>
 <span class="sd">        Number of coordinates to generate per exemplar.</span>
 <span class="sd">    dims : int</span>
@@ -393,7 +394,10 @@ title="Fullscreen mode"
 <span class="sd">    -------</span>
 <span class="sd">        (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span></div>
+    <span class="k">if</span> <span class="n">batch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
 <div class="viewcode-block" id="randint"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.randint">[docs]</a><span class="k">def</span> <span class="nf">randint</span><span class="p">(</span>
@@ -415,6 +419,7 @@ title="Fullscreen mode"
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    batch : int</span>
+<span class="sd">        Batch size. If ``0``, don&#39;t return a batch dimension.</span>
 <span class="sd">    n_samples : int</span>
 <span class="sd">    size : tuple</span>
 <span class="sd">        Size of field to generate pixel coordinates for. i.e. ``(x, y, ...)``.</span>
@@ -430,6 +435,11 @@ title="Fullscreen mode"
 <span class="sd">    -------</span>
 <span class="sd">        (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">return_nobatch</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">batch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">return_nobatch</span> <span class="o">=</span> <span class="kc">True</span>
+
     <span class="k">if</span> <span class="n">replace</span><span class="p">:</span>
         <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">size</span><span class="p">:</span>
@@ -455,10 +465,15 @@ title="Fullscreen mode"
             <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">batch_select</span><span class="p">,</span> <span class="n">rand_coord_indices</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">coords</span></div>
+
+    <span class="k">if</span> <span class="n">return_nobatch</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">coords</span></div>
 
 
-<div class="viewcode-block" id="randint_like"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.randint_like">[docs]</a><span class="k">def</span> <span class="nf">randint_like</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="randint_like"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.randint_like">[docs]</a><span class="nd">@nobatch</span>
+<span class="k">def</span> <span class="nf">randint_like</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate random pixel coordinates in range ``[-1, 1]``.</span>
 
 <span class="sd">    See ``randint``.</span>
@@ -491,7 +506,8 @@ title="Fullscreen mode"
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="full"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.full">[docs]</a><span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">):</span>
+<div class="viewcode-block" id="full"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.full">[docs]</a><span class="nd">@nobatch</span>
+<span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">default</span><span class="o">.</span><span class="n">align_corners</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate 2D or 3D coordinates to fully n_samples an image.</span>
 
 <span class="sd">    Parameters</span>
@@ -519,7 +535,8 @@ title="Fullscreen mode"
     <span class="k">return</span> <span class="n">norm_coords</span></div>
 
 
-<div class="viewcode-block" id="full_like"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.full_like">[docs]</a><span class="k">def</span> <span class="nf">full_like</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="full_like"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.full_like">[docs]</a><span class="nd">@nobatch</span>
+<span class="k">def</span> <span class="nf">full_like</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">full</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
@@ -539,7 +556,9 @@ title="Fullscreen mode"
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    batch : int</span>
+<span class="sd">        Batch size. If ``0``, don&#39;t return a batch dimension.</span>
 <span class="sd">    n_samples : int</span>
+<span class="sd">        Number of coordinates to generate per exemplar.</span>
 <span class="sd">    pred : torch.Tensor</span>
 <span class="sd">        ``(b, c, h, w)`` or ``(b, c, d, h, w)`` prediction probabilities.</span>
 <span class="sd">    k : float</span>
@@ -564,6 +583,11 @@ title="Fullscreen mode"
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot handle pred dimensionality </span><span class="si">{pred.ndim}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
+    <span class="n">return_nobatch</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">batch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">return_nobatch</span> <span class="o">=</span> <span class="kc">True</span>
+
     <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&quot;k&quot; must be &gt;=1&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">beta</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
@@ -587,7 +611,10 @@ title="Fullscreen mode"
         <span class="c1"># This won&#39;t happen during testing when ``beta==0``</span>
         <span class="n">coords</span><span class="p">[:,</span> <span class="n">n_biased</span><span class="p">:]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">n_unbiased</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">coords</span></div>
+    <span class="k">if</span> <span class="n">return_nobatch</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">coords</span></div>
 
 
 <div class="viewcode-block" id="uncertain"><a class="viewcode-back" href="../../source/packages/torchsample.coord.html#torchsample.coord.uncertain">[docs]</a><span class="k">def</span> <span class="nf">uncertain</span><span class="p">(</span>

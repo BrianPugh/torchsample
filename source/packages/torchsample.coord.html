@@ -376,7 +376,7 @@ aligned, and thus preserving the values at those pixels.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Batch size</p></li>
+<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Batch size. If <code class="docutils literal notranslate"><span class="pre">0</span></code>, don’t return a batch dimension.</p></li>
 <li><p><strong>n_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of coordinates to generate per exemplar.</p></li>
 <li><p><strong>dims</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – <code class="docutils literal notranslate"><span class="pre">2</span></code> for generating <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code> coordinates.
 <code class="docutils literal notranslate"><span class="pre">3</span></code> for generating <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">z)</span></code> coordinates.
@@ -402,8 +402,8 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">2</span
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
-<li><p><strong>n_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Batch size. If <code class="docutils literal notranslate"><span class="pre">0</span></code>, don’t return a batch dimension.</p></li>
+<li><p><strong>n_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of coordinates to generate per exemplar.</p></li>
 <li><p><strong>pred</strong> (<em>torch.Tensor</em>) – <code class="docutils literal notranslate"><span class="pre">(b,</span> <span class="pre">c,</span> <span class="pre">h,</span> <span class="pre">w)</span></code> or <code class="docutils literal notranslate"><span class="pre">(b,</span> <span class="pre">c,</span> <span class="pre">d,</span> <span class="pre">h,</span> <span class="pre">w)</span></code> prediction probabilities.</p></li>
 <li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Multiplier for oversampling for biased coordinates.</p></li>
 <li><p><strong>beta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Portion of coordinates to be biased towards uncertain regions.
@@ -433,7 +433,7 @@ when sampling featuremaps of resolution <code class="docutils literal notranslat
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Batch size. If <code class="docutils literal notranslate"><span class="pre">0</span></code>, don’t return a batch dimension.</p></li>
 <li><p><strong>n_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
 <li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Size of field to generate pixel coordinates for. i.e. <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">...)</span></code>.</p></li>
 <li><p><strong>device</strong> (<em>torch.device</em>) – The desired device of returned tensor</p></li>
