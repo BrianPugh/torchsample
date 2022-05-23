@@ -149,7 +149,7 @@ def randint(
     size,
     device=None,
     align_corners=default.align_corners,
-    replace=True,
+    replace=False,
 ):
     """Generate random pixel coordinates in range ``[-1, 1]``.
 
@@ -172,7 +172,7 @@ def randint(
         if ``True``, the corner pixels of the input and output tensors are
         aligned, and thus preserving the values at those pixels.
     replace : bool
-        Sample with or without replacement. Defaults to ``True``.
+        Sample with or without replacement. Defaults to ``False``.
 
     Returns
     -------
@@ -216,7 +216,7 @@ def randint(
 
 
 @nobatch
-def randint_like(n_samples, tensor, align_corners=default.align_corners, replace=True):
+def randint_like(n_samples, tensor, align_corners=default.align_corners, replace=False):
     """Generate random pixel coordinates in range ``[-1, 1]``.
 
     See ``randint``.
