@@ -1,5 +1,5 @@
-Align Corners
--------------
+About Align Corners
+===================
 
 This serves to be a brief, but complete writeup on explaining what
 ``align_corners`` actually is, how it impacts interpolation, and

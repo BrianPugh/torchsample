@@ -1,11 +1,15 @@
 .. include:: source/readme.rst
-    :start-line: 2
+    :start-after: inclusion-marker-do-not-remove
+    :end-before: inclusion-marker-remove
 
 .. toctree::
-    :maxdepth: 2
-    :caption: Contents:
+   :maxdepth: 2
+   :caption: Contents:
 
-    source/packages/modules
-    source/changelog
-    py-modindex
-    genindex
+   Installation
+   Overview
+   align_corners
+   source/packages/modules
+   source/changelog
+   py-modindex
+   genindex
