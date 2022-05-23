@@ -164,7 +164,7 @@ def test_full_single_batch_2d():
     # Moving down an image should increase y
     assert (coords[0, 1, 0] == torch.Tensor([-1.0, 1.0])).all()
 
-    # Moving ot the right should increase x
+    # Moving to the right should increase x
     assert (coords[0, 0, 1] == torch.Tensor([0, -1.0])).all()
 
     # Assert the final coord is [1., 1.]

@@ -124,7 +124,7 @@ Design Decisions
   i.e. matches coordinate order. It makes implementation simpler
   and a consistent rule helps prevent bugs.
 * When ``coords`` is a function argument, it comes first.
-* Simple wrapper functions are provided (like ``ts.coord.rand``) are
+* Simple wrapper functions (like ``ts.coord.rand``) are
   provided to make the intentions of calling code more clear.
 * Try and mimic native ``pytorch`` and ``torchvision`` interfaces as
   much as possible.
