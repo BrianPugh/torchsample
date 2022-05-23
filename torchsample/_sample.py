@@ -26,6 +26,7 @@ def sample2d(
     padding_mode=default.padding_mode,
     align_corners=default.align_corners,
     encoder=None,
+    feat_last=True,
 ):
     """Sample a featmap at specified normalized coords.
 
@@ -45,6 +46,9 @@ def sample2d(
         Interpolation method.
     padding_mode : str
         Defaults to ``"border"`` (different from pytorch default ``"zeros"``).
+    feat_last : bool
+        Returned features are the last dimension.
+
 
     Returns
     -------
@@ -73,8 +77,11 @@ def sample2d(
         encoded = encoded.permute(0, 3, 1, 2)
         output = torch.cat([output, encoded], 1)
 
-    output = output.permute(0, 2, 3, 1)
-    output = _squeeze_at(output, 1, n_singleton)
+    if feat_last:
+        output = output.permute(0, 2, 3, 1)
+        output = _squeeze_at(output, 1, n_singleton)
+    else:
+        output = _squeeze_at(output, 2, n_singleton)
 
     return output
 
@@ -87,6 +94,7 @@ def sample3d(
     padding_mode="border",
     align_corners=default.align_corners,
     encoder=None,
+    feat_last=True,
 ):
     """Sample a featmap at specified normalized coords.
 
@@ -106,6 +114,8 @@ def sample3d(
         Interpolation method.
     padding_mode : str
         Defaults to ``"border"`` (different from pytorch default ``"zeros"``).
+    feat_last : bool
+        Returned features are the last dimension.
 
     Returns
     -------
@@ -134,8 +144,11 @@ def sample3d(
         encoded = encoded.permute(0, 4, 1, 2, 3)
         output = torch.cat([output, encoded], 1)
 
-    output = output.permute(0, 2, 3, 4, 1)
-    output = _squeeze_at(output, 1, n_singleton)
+    if feat_last:
+        output = output.permute(0, 2, 3, 4, 1)
+        output = _squeeze_at(output, 1, n_singleton)
+    else:
+        output = _squeeze_at(output, 2, n_singleton)
 
     return output
 
@@ -148,6 +161,7 @@ def sample(
     padding_mode="border",
     align_corners=default.align_corners,
     encoder=None,
+    feat_last=True,
 ):
     """Sample a featmap at specified normalized coords.
 
@@ -169,6 +183,8 @@ def sample(
         Interpolation method.
     padding_mode : str
         Defaults to ``"border"`` (different from pytorch default ``"zeros"``).
+    feat_last : bool
+        Returned features are the last dimension.
 
     Returns
     -------
@@ -190,4 +206,5 @@ def sample(
         padding_mode=padding_mode,
         align_corners=align_corners,
         encoder=encoder,
+        feat_last=feat_last,
     )
