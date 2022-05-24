@@ -1,14 +1,14 @@
 Overview
 ========
 
-Using coordinates with neural networks is a mismash between normalized
+Using coordinates in pytorch is a mismash between normalized
 coordinates, unnormalized coordinates, matrix indices, calls to
 ``meshgrid`` and ``grid_sample``, and permuting/reshaping tensors.
 TorchSample aims to make it very simple to generate coordinates, and to
 sample a neural network with them.
 
 For example, if we wanted to generate all the coordinates for a 2D image, and
-use them to sample the image
+use them to query the image, we would have to perform the following:
 
 .. code-block:: python
 
@@ -32,8 +32,7 @@ use them to sample the image
 
    assert (sampled == image).all()
 
-
-Lets see how this would look using TorchSample:
+That's quite a lot of work! Conversely,lets see how this would look using TorchSample:
 
 .. code-block:: python
 

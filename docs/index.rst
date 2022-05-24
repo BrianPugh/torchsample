@@ -8,6 +8,11 @@
 
    Installation
    Overview
+   generating_coordinates
+   sampling
+   nobatch
+   models
+   positional_encoding
    align_corners
    source/packages/modules
    source/changelog
