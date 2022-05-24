@@ -29,9 +29,7 @@ class SingleImageDataset(IterableDataset):
     def __iter__(self):
         while True:
             out = {}
-            out["coords"] = ts.coord.randint(
-                0, self.batch_size, self.size, replace=False
-            )
+            out["coords"] = ts.coord.randint(0, self.batch_size, self.size)
             out["rgb"] = ts.sample.nobatch(out["coords"], self.image, mode="nearest")
             yield out
 
