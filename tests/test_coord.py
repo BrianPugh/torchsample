@@ -171,7 +171,15 @@ def test_full_single_batch_2d():
     assert (coords[0, -1, -1] == torch.Tensor([1.0, 1.0])).all()
 
 
-# TODO test full=0
+def test_full_nobatch():
+    h, w = 2, 3
+    coords = ts.coord.full(1, (w, h), align_corners=True)
+    assert coords.shape == (1, h, w, 2)
+
+    coords_nobatch = ts.coord.full(0, (w, h), align_corners=True)
+    assert coords_nobatch.shape == (h, w, 2)
+
+    assert (coords[0] == coords_nobatch).all()
 
 
 @cuda
