@@ -250,15 +250,15 @@ def randint_like(n_samples, tensor, align_corners=default.align_corners, replace
 
 
 @nobatch
-def full(size, device=None, align_corners=default.align_corners):
+def full(batch, size, device=None, align_corners=default.align_corners):
     """Generate 2D or 3D coordinates to fully n_samples an image.
 
     Parameters
     ----------
+    batch : int
+        Batch size. If ``0``, don't return a batch dimension.
     size : tuple
-        Tuple of length 4 (2D) ``(n, c, h, w)`` or 5 (3D) ``(n, c, d, h, w)``.
-        In either case, ``c`` doesn't matter and is just there so we can
-        conveniently use ``output.shape``.
+        Size of field to generate pixel coordinates for. i.e. ``(x, y, ...)``.
     device : torch.device
         The desired device of returned tensor
     align_corners : bool
@@ -270,17 +270,23 @@ def full(size, device=None, align_corners=default.align_corners):
     coords : torch.Tensor
         ``(n, h, w, 2)`` Normalized coordinates for sampling functions.
     """
-    batch = size[0]
-    theta = torch.tensor([[[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]]], device=device)
-    theta = theta.repeat(batch, 1, 1)
-    norm_coords = F.affine_grid(theta, size, align_corners=align_corners).to(device)
-
-    return norm_coords
+    unnormalized = torch.meshgrid(*[torch.arange(x) for x in size], indexing="xy")
+    normalized = [
+        normalize(*x, align_corners=align_corners) for x in zip(unnormalized, size)
+    ]
+    normalized = torch.stack(normalized, -1)
+    if batch:
+        normalized = normalized[None]
+        expand = tuple([1] * len(size))
+        normalized = normalized.repeat(batch, 1, *expand)
+    return normalized
 
 
 @nobatch
 def full_like(tensor, *args, **kwargs):
-    return full(tensor.shape, *args, device=tensor.device, **kwargs)
+    batch = tensor.shape[0]
+    size = tensor_to_size(tensor)
+    return full(batch, size, *args, device=tensor.device, **kwargs)
 
 
 def rand_biased(
