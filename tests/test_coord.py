@@ -180,10 +180,9 @@ def test_full_cuda():
     assert actual.device.type == "cuda"
 
 
-@pytest.mark.skip(reason="needs to be updated to new api")
 def test_full_like_match_full():
     tensor = torch.rand(3, 4, 5, 6)
-    full_coords = ts.coord.full(tensor.shape)
+    full_coords = ts.coord.full(3, (6, 5))
     full_like_coords = ts.coord.full_like(tensor)
 
     assert full_coords.shape == full_like_coords.shape
@@ -191,11 +190,11 @@ def test_full_like_match_full():
     assert_close(full_coords, full_like_coords)
 
 
-@pytest.mark.skip(reason="needs to be updated to new api")
 @cuda
 def test_full_like_cuda():
     tensor = torch.rand(3, 4, 5, 6, device="cuda")
     actual = ts.coord.full_like(tensor)
+    assert actual.shape == (3, 5, 6, 2)
     assert actual.device.type == "cuda"
 
 
