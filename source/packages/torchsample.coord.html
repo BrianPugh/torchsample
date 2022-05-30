@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,6 +29,7 @@
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
@@ -38,7 +39,7 @@
     <link rel="next" title="torchsample.default module" href="torchsample.default.html" />
     <link rel="prev" title="torchsample.encoding.oop module" href="torchsample.encoding.oop.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
+    <meta name="docsearch:language" content="en">
     
 
     <!-- Google Analytics -->
@@ -92,6 +93,46 @@
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../Overview.html">
+   Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../generating_coordinates.html">
+   Generating Coordinates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../sampling.html">
+   Sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nobatch.html">
+   No Batch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../models.html">
+   Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../positional_encoding.html">
+   Positional Encoding
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../align_corners.html">
+   About Align Corners
+  </a>
+ </li>
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="modules.html">
    API Reference
@@ -303,7 +344,7 @@ title="Print to PDF"
               <div>
                 
   <div class="section" id="module-torchsample.coord">
-<span id="torchsample-coord-module"></span><h1>torchsample.coord module<a class="headerlink" href="#module-torchsample.coord" title="Permalink to this headline">#</a></h1>
+<span id="torchsample-coord-module"></span><h1>torchsample.coord module<a class="headerlink" href="#module-torchsample.coord" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="torchsample.coord.feat_first">
 <span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">feat_first</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#feat_first"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.feat_first" title="Permalink to this definition">#</a></dt>
@@ -318,14 +359,13 @@ title="Print to PDF"
 
 <dl class="py function">
 <dt class="sig sig-object py" id="torchsample.coord.full">
-<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#full"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.full" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#full"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.full" title="Permalink to this definition">#</a></dt>
 <dd><p>Generate 2D or 3D coordinates to fully n_samples an image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Tuple of length 4 (2D) <code class="docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">c,</span> <span class="pre">h,</span> <span class="pre">w)</span></code> or 5 (3D) <code class="docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">c,</span> <span class="pre">d,</span> <span class="pre">h,</span> <span class="pre">w)</span></code>.
-In either case, <code class="docutils literal notranslate"><span class="pre">c</span></code> doesn’t matter and is just there so we can
-conveniently use <code class="docutils literal notranslate"><span class="pre">output.shape</span></code>.</p></li>
+<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Batch size. If <code class="docutils literal notranslate"><span class="pre">0</span></code>, don’t return a batch dimension.</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Size of field to generate pixel coordinates for. i.e. <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">...)</span></code>.</p></li>
 <li><p><strong>device</strong> (<em>torch.device</em>) – The desired device of returned tensor</p></li>
 <li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, the corner pixels of the input and output tensors are
 aligned, and thus preserving the values at those pixels.</p></li>
@@ -424,7 +464,7 @@ aligned, and thus preserving the values at those pixels.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="torchsample.coord.randint">
-<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">randint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#randint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.randint" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">randint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#randint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.randint" title="Permalink to this definition">#</a></dt>
 <dd><p>Generate random pixel coordinates in range <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>.</p>
 <p>Unlike <code class="docutils literal notranslate"><span class="pre">rand</span></code>, the resulting coordinates will land exactly on pixels.
 Intended for sampling high resolution GT data during data loading.</p>
@@ -439,7 +479,7 @@ when sampling featuremaps of resolution <code class="docutils literal notranslat
 <li><p><strong>device</strong> (<em>torch.device</em>) – The desired device of returned tensor</p></li>
 <li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, the corner pixels of the input and output tensors are
 aligned, and thus preserving the values at those pixels.</p></li>
-<li><p><strong>replace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Sample with or without replacement. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>replace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Sample with or without replacement. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -450,7 +490,7 @@ aligned, and thus preserving the values at those pixels.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="torchsample.coord.randint_like">
-<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">randint_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#randint_like"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.randint_like" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">torchsample.coord.</span></span><span class="sig-name descname"><span class="pre">randint_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torchsample/coord.html#randint_like"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torchsample.coord.randint_like" title="Permalink to this definition">#</a></dt>
 <dd><p>Generate random pixel coordinates in range <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>.</p>
 <p>See <code class="docutils literal notranslate"><span class="pre">randint</span></code>.</p>
 <dl class="field-list simple">

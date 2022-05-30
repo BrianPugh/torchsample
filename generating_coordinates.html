@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Align Corners &#8212; torchsample unknown version documentation</title>
+    <title>Generating Coordinates &#8212; torchsample unknown version documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -36,8 +36,8 @@
     <link rel="shortcut icon" href="_static/logo-64w.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API Reference" href="source/packages/modules.html" />
-    <link rel="prev" title="Positional Encoding" href="positional_encoding.html" />
+    <link rel="next" title="Sampling" href="sampling.html" />
+    <link rel="prev" title="Overview" href="Overview.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -103,8 +103,8 @@
    Overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="generating_coordinates.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Generating Coordinates
   </a>
  </li>
@@ -128,8 +128,8 @@
    Positional Encoding
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="align_corners.html">
    About Align Corners
   </a>
  </li>
@@ -282,7 +282,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/align_corners.rst.txt"
+        <a href="_sources/generating_coordinates.rst.txt"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -342,32 +342,19 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#history">
-   History
+  <a class="reference internal nav-link" href="#random-coordinates">
+   Random Coordinates
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#explanation">
-   Explanation
+  <a class="reference internal nav-link" href="#comprehensive-coordinates">
+   Comprehensive Coordinates
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#for-align-corners-false-what-border-values-is-it-interpolating-between">
-     For
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       align_corners=False
-      </span>
-     </code>
-     , what border values is it interpolating between?
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#that-sounds-bad">
-     That sounds bad.
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helpers">
+   Helpers
+  </a>
  </li>
 </ul>
 
@@ -378,7 +365,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>About Align Corners</h1>
+                <h1>Generating Coordinates</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -389,32 +376,19 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#history">
-   History
+  <a class="reference internal nav-link" href="#random-coordinates">
+   Random Coordinates
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#explanation">
-   Explanation
+  <a class="reference internal nav-link" href="#comprehensive-coordinates">
+   Comprehensive Coordinates
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#for-align-corners-false-what-border-values-is-it-interpolating-between">
-     For
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       align_corners=False
-      </span>
-     </code>
-     , what border values is it interpolating between?
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#that-sounds-bad">
-     That sounds bad.
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helpers">
+   Helpers
+  </a>
  </li>
 </ul>
 
@@ -426,94 +400,63 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="section" id="about-align-corners">
-<h1>About Align Corners<a class="headerlink" href="#about-align-corners" title="Permalink to this heading">#</a></h1>
-<p>This serves to be a brief, but complete writeup on explaining what
-<code class="docutils literal notranslate"><span class="pre">align_corners</span></code> actually is, how it impacts interpolation, and
-when we should set it or not. Unless otherwise specified,
-<code class="docutils literal notranslate"><span class="pre">align_corners</span></code> refers to PyTorch code.</p>
-<p>TL;DR:  <code class="docutils literal notranslate"><span class="pre">align_corners=False</span></code> in pytorch is proper and generally better.</p>
-<div class="section" id="history">
-<h2>History<a class="headerlink" href="#history" title="Permalink to this heading">#</a></h2>
-<p>There’s an <a class="reference external" href="https://machinethink.net/blog/coreml-upsampling/">excellent writeup</a> by <a class="reference external" href="https://github.com/hollance">&#64;hollance</a> that explains the history
-of <code class="docutils literal notranslate"><span class="pre">align_corners</span></code> in various frameworks. In summary:</p>
-<ol class="arabic simple">
-<li><p><strong>BAD:</strong> TensorFlowV1 implemented bilinear resizing incorrect. When doubling
-resolution, this results in an image that shifts up one pixel and left
-one pixel. This also repeats the final row and column.</p></li>
-<li><p><strong>So-so:</strong> TensorFlow attempted to fix this in a backwards compatible way if
-the caller sets <code class="docutils literal notranslate"><span class="pre">align_corners=True</span></code>. This implementation, unfortunately, is
-also incorrect. The distance between successive pixels depends on the size
-of the image. Intuitively, the distance between pixels should be fixed.
-PyTorch uses this semi-bugged implementation when <code class="docutils literal notranslate"><span class="pre">align_corners=True</span></code>.</p></li>
-<li><p><strong>GOOD:</strong> PyTorch’s <code class="docutils literal notranslate"><span class="pre">align_corners=False</span></code> is actually <strong>different</strong> from
-TensorFlow’s. This is the “proper” way to bilinearly resize an image.</p></li>
-</ol>
-</div>
-<div class="section" id="explanation">
-<h2>Explanation<a class="headerlink" href="#explanation" title="Permalink to this heading">#</a></h2>
-<p>The linked articles are in the context of resizing images, but I’m going
-to present a pytorch example in the context of normalized coordinates to bring
-it all together.</p>
-<p>Consider a 2 pixel wide, 1 pixel tall image.
-The left pixel has intensity value 100, and the right pixel has intensity value 200.
-The value of a pixel is considered as a point at it’s center, <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>            <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span>
- <span class="o">+-------------------+-------------------+</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>         <span class="n">X</span>         <span class="o">|</span>         <span class="n">X</span>         <span class="o">|</span>
- <span class="o">|</span>    <span class="n">Value</span><span class="p">:</span> <span class="mi">100</span>     <span class="o">|</span>    <span class="n">Value</span><span class="p">:</span> <span class="mi">200</span>     <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">+-------------------+-------------------+</span>
-<span class="o">-</span><span class="mi">1</span>       <span class="o">-</span><span class="mf">0.5</span>        <span class="mi">0</span>        <span class="mf">0.5</span>        <span class="mi">1</span>   <span class="n">Norm</span><span class="o">.</span> <span class="n">Coords</span><span class="o">.</span>
-
-
-            <span class="n">align_corners</span><span class="o">=</span><span class="kc">True</span>
- <span class="o">+-------------------+-------------------+</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>         <span class="n">X</span>         <span class="o">|</span>         <span class="n">X</span>         <span class="o">|</span>
- <span class="o">|</span>    <span class="n">Value</span><span class="p">:</span> <span class="mi">100</span>     <span class="o">|</span>    <span class="n">Value</span><span class="p">:</span> <span class="mi">200</span>     <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">|</span>                   <span class="o">|</span>                   <span class="o">|</span>
- <span class="o">+-------------------+-------------------+</span>
-         <span class="o">-</span><span class="mi">1</span>          <span class="mi">0</span>         <span class="mi">1</span>             <span class="n">Norm</span><span class="o">.</span> <span class="n">Coords</span><span class="o">.</span>
+  <div class="section" id="generating-coordinates">
+<h1>Generating Coordinates<a class="headerlink" href="#generating-coordinates" title="Permalink to this heading">#</a></h1>
+<p>To keep a simple, uniform, consistent API; everything in TorchSample
+operates off of normalized coordinates in range <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>, unless
+explicitly stated otherwise.</p>
+<p>Similarly, all coordinates are <strong>always</strong> in order <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">...)</span></code>.
+If the shape of a space is given, it is <strong>always</strong> in order <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">...)</span></code>.
+For example, the shape of a 4D tensor is typically expressed as
+<code class="docutils literal notranslate"><span class="pre">(b,</span> <span class="pre">c,</span> <span class="pre">h,</span> <span class="pre">w)</span></code>. So, if a function needs the query space shape, the
+argument would be <code class="docutils literal notranslate"><span class="pre">(w,</span> <span class="pre">h)</span></code> since <code class="docutils literal notranslate"><span class="pre">w</span></code> is associated with <code class="docutils literal notranslate"><span class="pre">x</span></code> and
+<code class="docutils literal notranslate"><span class="pre">h</span></code> is associated with <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+<div class="section" id="random-coordinates">
+<h2>Random Coordinates<a class="headerlink" href="#random-coordinates" title="Permalink to this heading">#</a></h2>
+<p>To generate random coordinates, use <code class="docutils literal notranslate"><span class="pre">ts.coord.rand</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">coords</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">align_corners=False</span></code> coordinate system starts at the
-<strong>left side</strong> of the left-most pixel, and has it end at the
-<strong>right side</strong> of the right-most pixel.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">align_corners=True</span></code> coordinate system starts at the
-<strong>center</strong> of the left-most pixel, and has it end at the
-<strong>center</strong> of the right-most pixel.</p></li>
-</ul>
-<div class="section" id="for-align-corners-false-what-border-values-is-it-interpolating-between">
-<h3>For <code class="docutils literal notranslate"><span class="pre">align_corners=False</span></code>, what border values is it interpolating between?<a class="headerlink" href="#for-align-corners-false-what-border-values-is-it-interpolating-between" title="Permalink to this heading">#</a></h3>
-<p>PyTorch has a <code class="docutils literal notranslate"><span class="pre">padding_mode</span></code> argument for querying border pixels. By
-default, <code class="docutils literal notranslate"><span class="pre">padding_mode=&quot;zeros&quot;</span></code>, meaning that there’s a border of
-pixels with value <code class="docutils literal notranslate"><span class="pre">0</span></code> around the image. For example, sampling this
-image at normalized coordinates <code class="docutils literal notranslate"><span class="pre">(-1,</span> <span class="pre">-1)</span></code> will sample the top
-left corner of the left pixel. Due to bilinear interpolation with the
-surrounding zero-padding, the resulting value would be <code class="docutils literal notranslate"><span class="pre">1/4</span></code> the
-pixel’s value; i.e. <code class="docutils literal notranslate"><span class="pre">25</span></code>.</p>
+<p>To generate coordinates that <strong>fall exactly on pixels</strong> for a
+given resolution, you can use <code class="docutils literal notranslate"><span class="pre">ts.coord.randint</span></code>. Despite the name, the
+returned coordinates are still normalized and in range <code class="docutils literal notranslate"><span class="pre">[-1.</span> <span class="pre">1]</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">)</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span>
+</pre></div>
 </div>
-<div class="section" id="that-sounds-bad">
-<h3>That sounds bad.<a class="headerlink" href="#that-sounds-bad" title="Permalink to this heading">#</a></h3>
-<p><a class="reference external" href="https://arxiv.org/pdf/2010.02178.pdf">Probably, it is an actively researched topic</a>.
-In <code class="docutils literal notranslate"><span class="pre">torchsample</span></code> we change the default to <code class="docutils literal notranslate"><span class="pre">padding_mode=&quot;border&quot;</span></code>,
-meaning that the padding has the same value as it’s neighboring valid
-pixel value.
-With this padding mode, sampling at <code class="docutils literal notranslate"><span class="pre">(-1,</span> <span class="pre">-1)</span></code> would result in the full value <code class="docutils literal notranslate"><span class="pre">100</span></code>.
-The resulting sampled image/featuremap looks how one would expect it to look.</p>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, TorchSample offers convenience functions ending in <code class="docutils literal notranslate"><span class="pre">_like</span></code>
+that accepts a 4D or 5D tensor so that the caller doesn’t have to juggle around shape.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">)</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">randint_like</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>  <span class="c1"># (16, 4096, 2)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="comprehensive-coordinates">
+<h2>Comprehensive Coordinates<a class="headerlink" href="#comprehensive-coordinates" title="Permalink to this heading">#</a></h2>
+<p>During inference time, its common to want to generate coordinates that
+comprehensively query an entire space.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">random</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span>  <span class="c1"># (1, 480, 640, 2)</span>
+</pre></div>
+</div>
+<p>Or, create comprehensive coordinates that match a given tensor:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">)</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>  <span class="c1"># (16, 480, 640, 2)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="helpers">
+<h2>Helpers<a class="headerlink" href="#helpers" title="Permalink to this heading">#</a></h2>
+<p>To go back-and-forth between normalized and unnormalized coordinates, the
+helper functions <code class="docutils literal notranslate"><span class="pre">ts.coord.normalize</span></code> and <code class="docutils literal notranslate"><span class="pre">ts.coord.unnormalize</span></code> are
+available.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">coords</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># range [-1, 1]</span>
+<span class="c1"># xrange [0, 639];  yrange [0, 479]</span>
+<span class="n">unnormalized_coords</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">unnormalize</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span>
+<span class="n">renormalized_coords</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span>
+<span class="n">assert_close</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">renormalized_coords</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -526,17 +469,17 @@ The resulting sampled image/featuremap looks how one would expect it to look.</p
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="positional_encoding.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="Overview.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Positional Encoding</p>
+            <p class="prev-next-title">Overview</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="source/packages/modules.html" title="next page">
+    <a class='right-next' id="next-link" href="sampling.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API Reference</p>
+        <p class="prev-next-title">Sampling</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

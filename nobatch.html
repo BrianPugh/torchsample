@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; torchsample unknown version documentation</title>
+    <title>No Batch &#8212; torchsample unknown version documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -34,8 +34,10 @@
     <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script src="_static/js/rtd_sphinx_search.min.js"></script>
     <link rel="shortcut icon" href="_static/logo-64w.png"/>
-    <link rel="index" title="Index" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Models" href="models.html" />
+    <link rel="prev" title="Sampling" href="sampling.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -111,8 +113,8 @@
    Sampling
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nobatch.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    No Batch
   </a>
  </li>
@@ -202,8 +204,8 @@
    Module Index
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="genindex.html">
    Index
   </a>
  </li>
@@ -272,6 +274,52 @@ title="Fullscreen mode"
 
 </button>
 
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/nobatch.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
     </div>
 </div>
 
@@ -283,7 +331,7 @@ title="Fullscreen mode"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Index</h1>
+                <h1>No Batch</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -295,217 +343,31 @@ title="Fullscreen mode"
                 
               <div>
                 
+  <div class="section" id="no-batch">
+<span id="id1"></span><h1>No Batch<a class="headerlink" href="#no-batch" title="Permalink to this heading">#</a></h1>
+<p>Sometimes it may be preferable to operate without a batch dimension.
+For example, when creating a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, the downstream <code class="docutils literal notranslate"><span class="pre">Dataloader</span></code> collates the data into batches.
+TorchSample supports this usecase by either supplying <code class="docutils literal notranslate"><span class="pre">0</span></code> to functions that expect a batch size, or by using the <code class="docutils literal notranslate"><span class="pre">nobatch</span></code> subfunction for functions that operate on tensors.</p>
+<p>Without using this functionality, a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> may look like the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>  <span class="c1"># Add a singleton batch dimension</span>
+<span class="n">out</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span>  <span class="c1"># (1, 4096, 2)</span>
+<span class="n">out</span><span class="p">[</span><span class="s2">&quot;rgb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">],</span> <span class="n">image</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>  <span class="c1"># (1, 4096, 3)</span>
 
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- <a href="#_"><strong>_</strong></a>
- | <a href="#F"><strong>F</strong></a>
- | <a href="#G"><strong>G</strong></a>
- | <a href="#I"><strong>I</strong></a>
- | <a href="#M"><strong>M</strong></a>
- | <a href="#N"><strong>N</strong></a>
- | <a href="#R"><strong>R</strong></a>
- | <a href="#T"><strong>T</strong></a>
- | <a href="#U"><strong>U</strong></a>
- 
+<span class="c1"># Remove the singleton dimensions since Dataloader will do the batching</span>
+<span class="n">out</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">out</span><span class="p">[</span><span class="s2">&quot;rgb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s2">&quot;rgb&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
 </div>
-<h2 id="_">_</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.models.html#torchsample.models.MLP.__init__">__init__() (torchsample.models.MLP method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="F">F</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.feat_first">feat_first() (in module torchsample.coord)</a>
-</li>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.feat_last">feat_last() (in module torchsample.coord)</a>
-</li>
-      <li><a href="source/packages/torchsample.encoding.oop.html#torchsample.encoding.oop.Gamma.forward">forward() (torchsample.encoding.oop.Gamma method)</a>
-
-      <ul>
-        <li><a href="source/packages/torchsample.encoding.oop.html#torchsample.encoding.oop.Identity.forward">(torchsample.encoding.oop.Identity method)</a>
-</li>
-        <li><a href="source/packages/torchsample.encoding.oop.html#torchsample.encoding.oop.NearestPixel.forward">(torchsample.encoding.oop.NearestPixel method)</a>
-</li>
-        <li><a href="source/packages/torchsample.models.html#torchsample.models.MLP.forward">(torchsample.models.MLP method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.full">full() (in module torchsample.coord)</a>
-</li>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.full_like">full_like() (in module torchsample.coord)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="G">G</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.encoding.oop.html#torchsample.encoding.oop.Gamma">Gamma (class in torchsample.encoding.oop)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.encoding.functional.html#torchsample.encoding.functional.gamma">gamma() (in module torchsample.encoding.functional)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="I">I</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.encoding.oop.html#torchsample.encoding.oop.Identity">Identity (class in torchsample.encoding.oop)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.encoding.functional.html#torchsample.encoding.functional.identity">identity() (in module torchsample.encoding.functional)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="M">M</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.models.html#torchsample.models.MLP">MLP (class in torchsample.models)</a>
-</li>
-      <li>
-    module
-
-      <ul>
-        <li><a href="source/packages/torchsample.html#module-torchsample">torchsample</a>
-</li>
-        <li><a href="source/packages/torchsample.coord.html#module-torchsample.coord">torchsample.coord</a>
-</li>
-        <li><a href="source/packages/torchsample.default.html#module-torchsample.default">torchsample.default</a>
-</li>
-        <li><a href="source/packages/torchsample.encoding.html#module-torchsample.encoding">torchsample.encoding</a>
-</li>
-        <li><a href="source/packages/torchsample.encoding.functional.html#module-torchsample.encoding.functional">torchsample.encoding.functional</a>
-</li>
-        <li><a href="source/packages/torchsample.encoding.oop.html#module-torchsample.encoding.oop">torchsample.encoding.oop</a>
-</li>
-        <li><a href="source/packages/torchsample.models.html#module-torchsample.models">torchsample.models</a>
-</li>
-      </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="N">N</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.encoding.functional.html#torchsample.encoding.functional.nearest_pixel">nearest_pixel() (in module torchsample.encoding.functional)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.encoding.oop.html#torchsample.encoding.oop.NearestPixel">NearestPixel (class in torchsample.encoding.oop)</a>
-</li>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.normalize">normalize() (in module torchsample.coord)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.rand">rand() (in module torchsample.coord)</a>
-</li>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.rand_biased">rand_biased() (in module torchsample.coord)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.randint">randint() (in module torchsample.coord)</a>
-</li>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.randint_like">randint_like() (in module torchsample.coord)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="T">T</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.tensor_to_size">tensor_to_size() (in module torchsample.coord)</a>
-</li>
-      <li>
-    torchsample
-
-      <ul>
-        <li><a href="source/packages/torchsample.html#module-torchsample">module</a>
-</li>
-      </ul></li>
-      <li>
-    torchsample.coord
-
-      <ul>
-        <li><a href="source/packages/torchsample.coord.html#module-torchsample.coord">module</a>
-</li>
-      </ul></li>
-      <li>
-    torchsample.default
-
-      <ul>
-        <li><a href="source/packages/torchsample.default.html#module-torchsample.default">module</a>
-</li>
-      </ul></li>
-      <li>
-    torchsample.encoding
-
-      <ul>
-        <li><a href="source/packages/torchsample.encoding.html#module-torchsample.encoding">module</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    torchsample.encoding.functional
-
-      <ul>
-        <li><a href="source/packages/torchsample.encoding.functional.html#module-torchsample.encoding.functional">module</a>
-</li>
-      </ul></li>
-      <li>
-    torchsample.encoding.oop
-
-      <ul>
-        <li><a href="source/packages/torchsample.encoding.oop.html#module-torchsample.encoding.oop">module</a>
-</li>
-      </ul></li>
-      <li>
-    torchsample.models
-
-      <ul>
-        <li><a href="source/packages/torchsample.models.html#module-torchsample.models">module</a>
-</li>
-      </ul></li>
-      <li><a href="source/packages/torchsample.encoding.oop.html#torchsample.encoding.oop.Gamma.training">training (torchsample.encoding.oop.Gamma attribute)</a>
-
-      <ul>
-        <li><a href="source/packages/torchsample.encoding.oop.html#torchsample.encoding.oop.Identity.training">(torchsample.encoding.oop.Identity attribute)</a>
-</li>
-        <li><a href="source/packages/torchsample.encoding.oop.html#torchsample.encoding.oop.NearestPixel.training">(torchsample.encoding.oop.NearestPixel attribute)</a>
-</li>
-        <li><a href="source/packages/torchsample.models.html#torchsample.models.MLP.training">(torchsample.models.MLP attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="U">U</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.uncertain">uncertain() (in module torchsample.coord)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/packages/torchsample.coord.html#torchsample.coord.unnormalize">unnormalize() (in module torchsample.coord)</a>
-</li>
-  </ul></td>
-</tr></table>
-
+<p>Not bad, but its more terse and readable by using the <code class="docutils literal notranslate"><span class="pre">nobatch</span></code> feature:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">)</span>
+<span class="n">out</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span>  <span class="c1"># (4096, 2)</span>
+<span class="n">out</span><span class="p">[</span><span class="s2">&quot;rgb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">nobatch</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">],</span> <span class="n">image</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>  <span class="c1"># (4096, 3)</span>
+</pre></div>
+</div>
+</div>
 
 
               </div>
@@ -515,6 +377,20 @@ title="Fullscreen mode"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="sampling.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Sampling</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="models.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Models</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>

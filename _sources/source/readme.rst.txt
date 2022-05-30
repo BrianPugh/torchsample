@@ -1,27 +1,30 @@
-.. image:: assets/banner-white-bg-512w.png
+.. image:: https://raw.githubusercontent.com/BrianPugh/torchsample/main/assets/banner-white-bg-512w.png
 
 |GHA tests| |Codecov report| |readthedocs|
 
-Lightweight pytorch utilities for neural network featuremap sampling.
+.. inclusion-marker-do-not-remove
+
+Lightweight pytorch functions for neural network featuremap sampling.
 
 **WARNING: API is not yet stable. API subject to change!**
 
 Introduction
 ------------
-Sampling neural network featuremaps has become more and more common with popular
+Sampling neural network featuremaps at explicit coordinates has become more and more common with popular
 developments like:
 
 * `Learning Continuous Image Representation with Local Implicit Image Function`_
 * `NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis`_
 * `PointRend: Image Segmentation as Rendering`_
 
-PyTorch provides builtin functions that allow you to sample
-coordinates, but they're not super intuitive to use in a
-proper way.
-Its very easy to get confusion over coordinates, normalization,
-indexing, ordering, among other things.
-``torchsample`` intends to make it dead simple so you can
-focus on other parts of the model.
+.. _Learning Continuous Image Representation with Local Implicit Image Function: https://arxiv.org/pdf/2012.09161.pdf
+.. _NeRF\: Representing Scenes as Neural Radiance Fields for View Synthesis: https://arxiv.org/pdf/2003.08934.pdf
+.. _PointRend\: Image Segmentation as Rendering: https://arxiv.org/pdf/1912.08193.pdf
+
+PyTorch provides the tools necessary that to sample coordinates, but they result in a large amount of error-prone code.
+TorchSample intends to make it simple so you can focus on other parts of the model.
+
+.. inclusion-marker-remove
 
 Usage
 -----
@@ -30,12 +33,11 @@ Installation
 ^^^^^^^^^^^^
 Requires python ``>=3.8`` Install ``torchsample`` via pip:
 
-..
-  .. code-block:: bash
+.. code-block:: bash
 
-    pip install torchsample
+  pip install torchsample
 
-  If you want to install the nightly version:
+Or, if you want to install the nightly version:
 
 .. code-block:: bash
 
@@ -143,7 +145,4 @@ Design Decisions
         :alt: Documentation Status
 
 
-.. _Learning Continuous Image Representation with Local Implicit Image Function: https://arxiv.org/pdf/2012.09161.pdf
-.. _NeRF\: Representing Scenes as Neural Radiance Fields for View Synthesis: https://arxiv.org/pdf/2003.08934.pdf
-.. _PointRend\: Image Segmentation as Rendering: https://arxiv.org/pdf/1912.08193.pdf
 .. _explanation here: docs/align_corners.rst
