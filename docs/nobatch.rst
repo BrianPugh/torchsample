@@ -1,10 +1,13 @@
+.. _No Batch:
+
 No Batch
 ========
 
-Especially when preprocessing exemplars in a ``Dataset``, it may be preferable
-to operate without a batch dimension (``Dataloader`` collates the data
-downstream). TorchSample supports this usecase by either supplying ``0`` to
-functions that expect a batch size, or by using the ``nobatch`` subfunction.
+Sometimes it may be preferable to operate without a batch dimension.
+For example, when creating a ``Dataset``, the downstream ``Dataloader`` collates the data into batches.
+TorchSample supports this usecase by either supplying ``0`` to functions that expect a batch size, or by using the ``nobatch`` subfunction for functions that operate on tensors.
+
+Without using this functionality, a ``Dataset`` may look like the following:
 
 .. code-block:: python
 
@@ -18,7 +21,7 @@ functions that expect a batch size, or by using the ``nobatch`` subfunction.
    out["coords"] = out["coords"][0]
    out["rgb"] = out["rgb"][0]
 
-Not bad, but its more terse by using the ``nobatch`` feature:
+Not bad, but its more terse and readable by using the ``nobatch`` feature:
 
 .. code-block:: python
 
