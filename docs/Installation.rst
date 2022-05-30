@@ -8,7 +8,7 @@ TorchSample requires Python ``>=3.8`` and can be installed from pypi via:
    python -m pip install torchsample
 
 
-To install directly from github, you can run:
+To get the latest unreleased updates; install directly from github:
 
 .. code-block:: bash
 

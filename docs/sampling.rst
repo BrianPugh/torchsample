@@ -17,8 +17,8 @@ so that downstream linear layers can be computed efficiently. The features can b
 returned in the standard first dimension-after-batch, if supplied with ``feat_last=False``.
 
 
-Sample with positional encoding
--------------------------------
+Sampling with positional encoding
+---------------------------------
 ``sample`` can take in an optional function handle ``encoder``.
 If provided, the encoder function is applied to the passed in coordinates, and the
 encoded coordinates will be concatenated onto the output sampled featuremap.
@@ -33,7 +33,6 @@ to also have the coordinates available as input.
 
 
 See :ref:`Positional Encoding` for available encoders.
-See :ref:`positional_encoding` for available encoders.
 
 
 .. code-block:: python

@@ -32,7 +32,13 @@ use them to query the image, we would have to perform the following:
 
    assert (sampled == image).all()
 
-That's quite a lot of work! Conversely,lets see how this would look using TorchSample:
+That's quite a lot of work! During all of this, it would be very easy to accidentally:
+
+1. Swap ``(x, y)`` for ``(row, col)`` during mesh creation.
+2. Normalize the coordinates improperly.
+3. Stack the coordinates in the wrong order.
+
+Conversely, lets see how this would look using TorchSample:
 
 .. code-block:: python
 
@@ -44,4 +50,5 @@ That's quite a lot of work! Conversely,lets see how this would look using TorchS
    sampled = ts.sample(coords, image, mode="nearest", feat_last=False)
    assert (sampled == image).all()
 
-Using TorchSample, the code is much more terse, readable, and less likely to contain a bug. This allows the programmer to instead focus on their actual network architecture rather than getting caught up in the machinery.
+Using TorchSample, the code is much more terse, readable, and less likely to contain a bug.
+This allows the developer to instead focus on their actual network architecture rather than getting caught up in the coordinate/sampling machinery.
