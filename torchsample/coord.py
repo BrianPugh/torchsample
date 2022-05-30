@@ -274,7 +274,7 @@ def full(batch, size, device=None, align_corners=default.align_corners):
     normalized = [
         normalize(*x, align_corners=align_corners) for x in zip(unnormalized, size)
     ]
-    normalized = torch.stack(normalized, -1)
+    normalized = torch.stack(normalized, -1).to(device)
     if batch:
         normalized = normalized[None]
         expand = tuple([1] * len(size))
