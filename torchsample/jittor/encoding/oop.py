@@ -11,26 +11,26 @@ class _OOPWrapper(jt.Module, ABC):
         self.kwargs = kwargs
 
     @abstractmethod
-    def forward(self, coords):
+    def execute(self, coords):
         pass
 
 
 class Gamma(_OOPWrapper):
     """See ``torchsample.encoding.functional.gamma``."""
 
-    def forward(self, coords):
+    def execute(self, coords):
         return gamma(coords, **self.kwargs)
 
 
 class Identity(_OOPWrapper):
     """See ``torchsample.encoding.functional.gamma``."""
 
-    def forward(self, coords):
+    def execute(self, coords):
         return identity(coords, **self.kwargs)
 
 
 class NearestPixel(_OOPWrapper):
     """See ``torchsample.encoding.functional.nearest_pixel``."""
 
-    def forward(self, coords):
+    def execute(self, coords):
         return nearest_pixel(coords, **self.kwargs)
