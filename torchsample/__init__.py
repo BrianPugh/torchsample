@@ -7,6 +7,15 @@ except ImportError:
     __version__ = "unknown version"
     version_tuple = (0, 0, "unknown version")
 
-from . import coord, default, encoding, models
-from ._sample import sample, sample2d, sample3d
-from .coord import feat_first, feat_last, tensor_to_size
+from . import jittor
+
+try:
+    import torch
+
+    del torch
+except AttributeError:
+    pass
+else:
+    from . import coord, default, encoding, models
+    from ._sample import sample, sample2d, sample3d
+    from .coord import feat_first, feat_last, tensor_to_size

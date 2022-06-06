@@ -1,6 +1,6 @@
-import torch
+import jittor as jt
 
-from . import default
+from .. import default
 from ._nobatch import nobatch
 from ._sample import sample
 
@@ -12,23 +12,26 @@ def tensor_to_size(tensor):
 
 def feat_first(tensor):
     """Move the features (last dim) to dim1."""
-    return tensor.movedim(-1, 1)
+    order = list(range(tensor.ndim))
+    last = order.pop()
+    order.insert(1, last)
+    return tensor.permute(*order)
 
 
 def feat_last(tensor):
     """Move the features (dim1) to last dim."""
-    return tensor.movedim(1, -1)
+    order = list(range(tensor.ndim))
+    feat = order.pop(1)
+    order.append(feat)
+    return tensor.permute(*order)
 
 
 def unnormalize(coord, size, align_corners=default.align_corners, clip=False):
     """Unnormalize normalized coordinates.
 
-    Modified from PyTorch C source:
-        https://github.com/pytorch/pytorch/blob/c52290bad18d23d7decd37b581307f8241c0e8c5/aten/src/ATen/native/GridSampler.h#L26
-
     Parameters
     ----------
-    coord : torch.Tensor
+    coord : jittor.Var
         Values in range ``[-1, 1]`` to unnormalize.
     size : int or tuple
         Unnormalized side length in pixels.
@@ -41,18 +44,18 @@ def unnormalize(coord, size, align_corners=default.align_corners, clip=False):
 
     Returns
     -------
-    torch.Tensor
+    jittor.Var
         Unnormalized coordinates.
     """
     if coord.numel() == 0:
         return coord
 
     if isinstance(size, int):
-        size = coord.new_tensor(size)
+        size = jt.int(size)
         size = size[(None,) * coord.ndim]
     else:
         # List, Tuple
-        size = coord.new_tensor(size)
+        size = jt.int(list(size))
         size = size[(None,) * (coord.ndim - 1)]
 
     if align_corners:
@@ -63,7 +66,7 @@ def unnormalize(coord, size, align_corners=default.align_corners, clip=False):
         unnorm = ((coord + 1) * size - 1) / 2
 
     if clip:
-        unnorm = torch.clip(unnorm, 0, size - 1)
+        unnorm = unnorm.safe_clip(0, size - 1)
 
     return unnorm
 
@@ -81,7 +84,7 @@ def normalize(
 
     Parameters
     ----------
-    coord : torch.Tensor
+    coord : jittor.Var
         Values in range ``[0, size-1]`` to normalize.
     size : int or tuple
         Unnormalized side length in pixels.
@@ -92,19 +95,19 @@ def normalize(
 
     Returns
     -------
-    torch.Tensor
+    jittor.Var
         Normalized coordinates.
     """
     if coord.numel() == 0:
         return coord
 
     if isinstance(size, int):
-        size = coord.new_tensor(size)
-        size = size[(None,) * coord.ndim]
+        size = jt.int(size)
+        size = size[(None,) * (coord.ndim - 1)]
     else:
         # List, Tuple
-        size = coord.new_tensor(size)
-        size = size[(None,) * (coord.ndim - 1)]
+        size = jt.int(list(size))
+        size = size[(None,) * (coord.ndim - 2)]
 
     if align_corners:
         norm = (coord / (size - 1)) * 2 - 1
@@ -114,7 +117,7 @@ def normalize(
     return norm
 
 
-def rand(batch, n_samples, dims=2, dtype=None, device=None):
+def rand(batch, n_samples, dims=2, dtype="float32"):
     """Generate random coordinates in range ``[-1, 1]``.
 
     Parameters
@@ -129,24 +132,21 @@ def rand(batch, n_samples, dims=2, dtype=None, device=None):
         Defaults to ``2``.
     dtype : torch.dtype
         The desired data type of returned tensor.
-    device : torch.device
-        The desired device of returned tensor
 
     Returns
     -------
         (batch, n_samples, dims) random coordinates in range ``[-1, 1]``.
     """
     if batch == 0:
-        return 2 * torch.rand(n_samples, dims, dtype=dtype, device=device) - 1
+        return 2 * jt.rand(n_samples, dims, dtype=dtype) - 1
     else:
-        return 2 * torch.rand(batch, n_samples, dims, dtype=dtype, device=device) - 1
+        return 2 * jt.rand(batch, n_samples, dims, dtype=dtype) - 1
 
 
 def randint(
     batch,
     n_samples,
     size,
-    device=None,
     align_corners=default.align_corners,
     replace=False,
 ):
@@ -165,8 +165,6 @@ def randint(
     n_samples : int
     size : tuple
         Size of field to generate pixel coordinates for. i.e. ``(x, y, ...)``.
-    device : torch.device
-        The desired device of returned tensor
     align_corners : bool
         if ``True``, the corner pixels of the input and output tensors are
         aligned, and thus preserving the values at those pixels.
@@ -185,27 +183,28 @@ def randint(
     if replace:
         coords = []
         for s in size:
-            unnorm = torch.randint(s, size=(batch, n_samples), device=device)
+            unnorm = jt.randint(s, shape=(batch, n_samples))
             norm = normalize(unnorm, s, align_corners)
             coords.append(norm)
-        coords = torch.stack(coords, dim=-1)
+        coords = jt.stack(coords, dim=-1)
     else:
-        unnorm = torch.cartesian_prod(
-            *(torch.arange(x) for x in size),
-        ).to(device)
+        # to be of shape (n_possible_coords, ndim); i.e. (100, 2)
+        unnorm = jt.stack(jt.meshgrid(*(jt.arange(x) for x in size)), -1).reshape(
+            -1, len(size)
+        )
         coords = normalize(unnorm, size, align_corners)
         coords = coords[None].repeat(batch, 1, 1)
         n_elements = coords.shape[1]
 
-        batch_select = torch.arange(batch, device=device)[:, None]
+        batch_select = jt.arange(batch)[:, None]
         batch_select = batch_select.repeat(1, n_samples)
-        rand_coord_indices = torch.stack(
-            [
-                torch.randperm(n_elements, device=device)[:n_samples]
-                for _ in range(batch)
-            ],
+        rand_coord_indices = jt.stack(
+            [jt.randperm(n_elements)[:n_samples] for _ in range(batch)],
             dim=0,
         )
+        if batch_select.shape != rand_coord_indices.shape:
+            raise IndexError
+
         coords = coords[batch_select, rand_coord_indices]
 
     if return_nobatch:
@@ -242,14 +241,13 @@ def randint_like(n_samples, tensor, align_corners=default.align_corners, replace
         batch,
         n_samples,
         size,
-        device=tensor.device,
         align_corners=align_corners,
         replace=replace,
     )
 
 
 @nobatch
-def full(batch, size, device=None, align_corners=default.align_corners):
+def full(batch, size, align_corners=default.align_corners):
     """Generate 2D or 3D coordinates to fully n_samples an image.
 
     Parameters
@@ -258,22 +256,22 @@ def full(batch, size, device=None, align_corners=default.align_corners):
         Batch size. If ``0``, don't return a batch dimension.
     size : tuple
         Size of field to generate pixel coordinates for. i.e. ``(x, y, ...)``.
-    device : torch.device
-        The desired device of returned tensor
     align_corners : bool
         if ``True``, the corner pixels of the input and output tensors are
         aligned, and thus preserving the values at those pixels.
 
     Returns
     -------
-    coords : torch.Tensor
+    coords : jittor.Var
         ``(n, h, w, 2)`` Normalized coordinates for sampling functions.
     """
-    unnormalized = torch.meshgrid(*[torch.arange(x) for x in size], indexing="xy")
+    unnormalized = jt.meshgrid(*[jt.arange(x) for x in size])
+    # equivalent of 'xy' indexing
+    unnormalized = [x.transpose(0, 1) for x in unnormalized]
     normalized = [
         normalize(*x, align_corners=align_corners) for x in zip(unnormalized, size)
     ]
-    normalized = torch.stack(normalized, -1).to(device)
+    normalized = jt.stack(normalized, -1)
     if batch:
         normalized = normalized[None]
         expand = tuple([1] * len(size))
@@ -285,7 +283,7 @@ def full(batch, size, device=None, align_corners=default.align_corners):
 def full_like(tensor, *args, **kwargs):
     batch = tensor.shape[0]
     size = tensor_to_size(tensor)
-    return full(batch, size, *args, device=tensor.device, **kwargs)
+    return full(batch, size, *args, **kwargs)
 
 
 def rand_biased(
@@ -307,7 +305,7 @@ def rand_biased(
         Batch size. If ``0``, don't return a batch dimension.
     n_samples : int
         Number of coordinates to generate per exemplar.
-    pred : torch.Tensor
+    pred : jittor.Var
         ``(b, c, h, w)`` or ``(b, c, d, h, w)`` prediction probabilities.
     k : float
         Multiplier for oversampling for biased coordinates.
@@ -321,7 +319,7 @@ def rand_biased(
 
     Returns
     -------
-    torch.Tensor
+    jittor.Var
         (b, n_samples, dim) Normalized coordinates.
     """
     if pred.ndim == 4:
@@ -341,23 +339,23 @@ def rand_biased(
     if not (0 <= beta <= 1):
         raise ValueError('"beta" must be in range [0, 1]')
 
-    coords = pred.new_empty((batch, n_samples, dim))
+    coords = jt.empty((batch, n_samples, dim))
     n_biased = int(beta * n_samples)
     n_unbiased = n_samples - n_biased
 
     if n_biased:
-        oversampled_coords = rand(batch, int(k * n_samples), dim, device=coords.device)
+        oversampled_coords = rand(batch, int(k * n_samples), dim)
         pred_sampled = sample(oversampled_coords, pred)
-        certainty = torch.max(pred_sampled, dim=-1).values  # (b, k*n_samples)
-        _, indices = torch.sort(certainty, dim=1)
+        certainty = jt.max(pred_sampled, dim=-1)  # (b, k*n_samples)
+        indices, _ = jt.argsort(certainty, dim=1)
         indices = indices[:, :n_biased]
         coords[:, :n_biased] = oversampled_coords[
-            torch.arange(batch)[:, None].expand(-1, n_biased), indices
+            jt.arange(batch)[:, None].expand(-1, n_biased), indices
         ]
 
     if n_unbiased:
         # This won't happen during testing when ``beta==0``
-        coords[:, n_biased:] = rand(batch, n_unbiased, dim, device=coords.device)
+        coords[:, n_biased:] = rand(batch, n_unbiased, dim)
 
     if return_nobatch:
         return coords[0]
@@ -386,7 +384,7 @@ def uncertain(
 
     Parameters
     ----------
-    pred : torch.Tensor
+    pred : jittor.Var
         ``(1, c, h, w)`` or ``(1, c, d, h, w)`` prediction probabilities.
         Can NOT handle ``>1`` batch size; would result in ragged
         tensors.
@@ -409,17 +407,17 @@ def uncertain(
         with a ragged tensor.
     """
     size = tensor_to_size(pred)
-    certainty = pred.max(1, keepdim=True).values
+    certainty = pred.max(1)[:, None]
 
     # Expand so when indexing we also index into the all the features.
     certainty = certainty.expand(pred.shape)
     # (n_coords, certainty.ndim)
     mask = certainty < threshold
-    index_coords = mask.nonzero(as_tuple=True)
-    index_coords_no_c = mask[:, 0].nonzero(as_tuple=True)
+    index_coords = tuple(mask.nonzero().transpose())
+    index_coords_no_c = tuple(mask[:, 0].nonzero().transpose())
     # Get rid of the batch index and flip the remaining
     # (..., y, x) to get (x, y, ...)
-    pixel_coords = torch.stack(index_coords_no_c[:0:-1], -1)[None]
+    pixel_coords = jt.stack(index_coords_no_c[:0:-1], -1)[None]
 
     norm_coords = normalize(pixel_coords, size, align_corners)
 
