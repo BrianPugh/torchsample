@@ -11,15 +11,15 @@ Results
 .. list-table::
   :align: center
 
-  * - .. image:: output/polite_pos-enc=False/200.jpg
+  * - .. image:: output_assets/polite_pos-enc=False/200.jpg
 
       200 Iterations
 
-    - .. image:: output/polite_pos-enc=False/800.jpg
+    - .. image:: output_assets/polite_pos-enc=False/800.jpg
 
       800 Iterations
 
-    - .. image:: output/polite_pos-enc=False/2000.jpg
+    - .. image:: output_assets/polite_pos-enc=False/2000.jpg
 
       2000 Iterations
 
@@ -29,15 +29,15 @@ Results
 .. list-table::
   :align: center
 
-  * - .. image:: output/polite_pos-enc=True/200.jpg
+  * - .. image:: output_assets/polite_pos-enc=True/200.jpg
 
       200 Iterations
 
-    - .. image:: output/polite_pos-enc=True/800.jpg
+    - .. image:: output_assets/polite_pos-enc=True/800.jpg
 
       800 Iterations
 
-    - .. image:: output/polite_pos-enc=True/2000.jpg
+    - .. image:: output_assets/polite_pos-enc=True/2000.jpg
 
       2000 Iterations
 
@@ -74,3 +74,11 @@ To see all available run options:
                            Every this many training iterations, perform a full query and save the
                            prediction. (default: 200)
      --pos-enc             Use gamma positional encoding. (default: False)
+
+Performance
+^^^^^^^^^^^
+Runtime performance on a M1 Macbook Air with 16GB of memory:
+
+.. code-block:: bash
+
+   Optimized 2000 in 71.590s

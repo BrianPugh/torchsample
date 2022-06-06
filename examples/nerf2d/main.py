@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+from time import time
 
 import cv2
 import numpy as np
@@ -84,6 +85,8 @@ def main():
     print("Begin Training")
     pbar = tqdm(zip(range(args.iterations), dataloader))
 
+    t_start = time()
+    t_save = 0
     for iteration, batch in pbar:
         optimizer.zero_grad()
         # TODO: pos enc
@@ -100,6 +103,7 @@ def main():
         optimizer.step()
 
         if (iteration + 1) % args.save_freq == 0 or iteration == args.iterations - 1:
+            t_save -= time()
             coords = ts.coord.full_like.nobatch(dataset.image)
 
             if args.pos_enc:
@@ -114,6 +118,10 @@ def main():
             raster = np.clip((raster * 255).round(), 0, 255).astype(np.uint8)
             out_fn = output_folder / f"{iteration + 1}.jpg"
             cv2.imwrite(str(out_fn), cv2.cvtColor(raster, cv2.COLOR_RGB2BGR))
+            t_save += time()
+    t_end = time()
+    t_optim = t_end - t_start - t_save
+    print(f"Optimized {args.iterations} in {t_optim:.3f}s.")
 
 
 if __name__ == "__main__":
