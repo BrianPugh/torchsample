@@ -5,7 +5,6 @@ try:
 except ImportError:
     pass
 else:
-    # from . import coord, default, encoding, models
-    from . import coord
+    from . import coord, encoding  # , models
     from ._sample import sample, sample2d, sample3d
     from .coord import feat_first, feat_last, tensor_to_size
