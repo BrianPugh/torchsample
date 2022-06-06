@@ -3,36 +3,42 @@ from pathlib import Path
 from time import time
 
 import cv2
+import jittor as jt
+import jittor.transform as transforms
 import numpy as np
-import torch
-import torch.nn.functional as F
-from torch.utils.data import DataLoader, IterableDataset
-from torchvision import transforms
+from jittor.dataset import Dataset
 from tqdm import tqdm
 
-import torchsample as ts
+import torchsample.jittor as ts
 
 transform = transforms.Compose(
     [
         transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        transforms.ImageNormalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     ]
 )
 
 
-class SingleImageDataset(IterableDataset):
-    def __init__(self, fn, batch_size):
+class SingleImageDataset(Dataset):
+    def __init__(self, fn, batch_size, num_workers=0):
+        super().__init__(
+            batch_size=batch_size, shuffle=True, num_workers=num_workers, endless=True
+        )
         self.image = cv2.cvtColor(cv2.imread(str(fn)), cv2.COLOR_BGR2RGB)
+        self.image = self.image.transpose(
+            (2, 0, 1)
+        )  # Should this be handled automatically in jittor?
         self.image = transform(self.image)  # (3, h, w)
+        self.image = jt.float(self.image)
         self.batch_size = batch_size
         self.size = self.image.shape[-1], self.image.shape[-2]  # (x, y)
+        self.total_len = 1
 
-    def __iter__(self):
-        while True:
-            out = {}
-            out["coords"] = ts.coord.randint(0, self.batch_size, self.size)
-            out["rgb"] = ts.sample.nobatch(out["coords"], self.image, mode="nearest")
-            yield out
+    def __getitem__(self, idx):
+        out = {}
+        out["coords"] = ts.coord.randint(0, self.batch_size, self.size)
+        out["rgb"] = ts.sample.nobatch(out["coords"], self.image, mode="nearest")
+        return out
 
 
 def main():
@@ -76,14 +82,12 @@ def main():
     else:
         mlp_in = 2
     model = ts.models.MLP(mlp_in, 256, 256, 256, 3)
+    optimizer = jt.optim.AdamW(model.parameters(), lr=args.lr)
 
-    dataset = SingleImageDataset(args.input, args.batch_size)
-    dataloader = DataLoader(dataset, batch_size=1, num_workers=0)
-
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
+    dataset = SingleImageDataset(args.input, args.batch_size, num_workers=4)
 
     print("Begin Training")
-    pbar = tqdm(zip(range(args.iterations), dataloader))
+    pbar = tqdm(zip(range(args.iterations), dataset))
 
     t_start = time()
     t_save = 0
@@ -94,12 +98,11 @@ def main():
             coords = ts.encoding.gamma(coords)
         pred = model(coords)
 
-        loss = F.l1_loss(pred, batch["rgb"])
+        loss = jt.nn.l1_loss(pred, batch["rgb"])
 
         pbar.set_description(f"loss: {loss:.3f}")
 
-        loss.backward()
-        optimizer.step()
+        optimizer.step(loss)
 
         if (iteration + 1) % args.save_freq == 0 or iteration == args.iterations - 1:
             t_save -= time()
@@ -108,7 +111,7 @@ def main():
             if args.pos_enc:
                 coords = ts.encoding.gamma(coords)
 
-            with torch.no_grad():
+            with jt.no_grad():
                 raster = model(coords)
                 raster = raster.numpy()
 
