@@ -1,6 +1,6 @@
 .. image:: https://raw.githubusercontent.com/BrianPugh/torchsample/main/assets/banner-white-bg-512w.png
 
-|GHA tests| |Codecov report| |readthedocs|
+|Python compat| |PyPi| |GHA tests| |Codecov report| |readthedocs|
 
 .. inclusion-marker-do-not-remove
 
@@ -143,6 +143,9 @@ Design Decisions
 .. |readthedocs| image:: https://readthedocs.org/projects/torchsample/badge/?version=latest
         :target: https://torchsample.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
+.. |Python compat| image:: https://img.shields.io/badge/>=python-3.8-blue.svg
+.. |PyPi| image:: https://img.shields.io/pypi/v/torchsample.svg
+        :target: https://pypi.python.org/pypi/torchsample
 
 
 .. _explanation here: docs/align_corners.rst
